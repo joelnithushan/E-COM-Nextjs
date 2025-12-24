@@ -34,12 +34,19 @@ router.get('/:id', productController.getProduct);
  * @route   POST /api/v1/products
  * @desc    Create product
  * @access  Private (Admin only)
+ * Note: Supports both file uploads (multipart/form-data) and JSON with image URLs
  */
 router.post(
   '/',
   authenticate,
   adminOnly,
-  uploadMultiple('images', 10),
+  // Optional file upload - only processes if Content-Type is multipart/form-data
+  (req, res, next) => {
+    if (req.headers['content-type']?.includes('multipart/form-data')) {
+      return uploadMultiple('images', 10)(req, res, next);
+    }
+    next();
+  },
   handleUploadError,
   validate(createProductSchema),
   productController.createProduct
@@ -49,12 +56,19 @@ router.post(
  * @route   PUT /api/v1/products/:id
  * @desc    Update product
  * @access  Private (Admin only)
+ * Note: Supports both file uploads (multipart/form-data) and JSON with image URLs
  */
 router.put(
   '/:id',
   authenticate,
   adminOnly,
-  uploadMultiple('images', 10),
+  // Optional file upload - only processes if Content-Type is multipart/form-data
+  (req, res, next) => {
+    if (req.headers['content-type']?.includes('multipart/form-data')) {
+      return uploadMultiple('images', 10)(req, res, next);
+    }
+    next();
+  },
   handleUploadError,
   validate(updateProductSchema),
   productController.updateProduct
@@ -80,4 +94,5 @@ router.delete(
 );
 
 export default router;
+
 

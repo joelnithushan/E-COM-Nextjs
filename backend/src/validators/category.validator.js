@@ -55,3 +55,4 @@ export const categoryQuerySchema = Joi.object({
   sort: Joi.string().valid('name_asc', 'name_desc', 'order_asc', 'order_desc', 'newest').default('order_asc'),
 });
 
+

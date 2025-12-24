@@ -126,3 +126,4 @@ export const getCartSummary = async (): Promise<CartSummaryResponse> => {
   return apiClient.get('/cart/summary');
 };
 
+

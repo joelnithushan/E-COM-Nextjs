@@ -87,3 +87,4 @@ export const deleteImages = async (publicIds) => {
 
 export default cloudinary;
 
+

@@ -158,45 +158,53 @@ class ProductService {
       return !!exists;
     });
 
-    // Upload images to Cloudinary
+    // Upload images to Cloudinary (if files are provided)
     const uploadedImages = [];
     if (images && images.length > 0) {
       for (const image of images) {
-        try {
-          const result = await uploadImage(image.buffer, 'products', {
-            public_id: `product_${Date.now()}_${Math.random().toString(36).substring(7)}`,
-          });
+        // Only upload if it's a file buffer (from multer)
+        if (image.buffer) {
+          try {
+            const result = await uploadImage(image.buffer, 'products', {
+              public_id: `product_${Date.now()}_${Math.random().toString(36).substring(7)}`,
+            });
 
-          uploadedImages.push({
-            url: result.url,
-            publicId: result.publicId,
-            isPrimary: uploadedImages.length === 0, // First image is primary
-            order: uploadedImages.length,
-          });
-        } catch (error) {
-          logger.error('Image upload error:', error);
-          // Continue with other images, but log error
+            uploadedImages.push({
+              url: result.url,
+              publicId: result.publicId,
+              isPrimary: uploadedImages.length === 0, // First image is primary
+              order: uploadedImages.length,
+            });
+          } catch (error) {
+            logger.error('Image upload error:', error);
+            // Continue with other images, but log error
+          }
         }
       }
     }
 
-    // If images provided in productData, merge with uploaded images
+    // If images provided in productData (from direct Cloudinary uploads), merge with uploaded images
     if (productData.images && productData.images.length > 0) {
       productData.images.forEach((img, index) => {
         if (!uploadedImages.find((u) => u.url === img.url)) {
           uploadedImages.push({
-            ...img,
-            order: uploadedImages.length + index,
+            url: img.url,
+            publicId: img.publicId || '',
+            isPrimary: img.isPrimary !== undefined ? img.isPrimary : uploadedImages.length === 0,
+            order: img.order !== undefined ? img.order : uploadedImages.length,
           });
         }
       });
     }
 
+    // If no images were uploaded or provided, use empty array
+    const finalImages = uploadedImages.length > 0 ? uploadedImages : [];
+
     // Create product
     const product = await Product.create({
       ...productData,
       slug,
-      images: uploadedImages.length > 0 ? uploadedImages : productData.images || [],
+      images: finalImages,
       createdBy: userId,
     });
 
@@ -240,29 +248,35 @@ class ProductService {
       });
     }
 
-    // Handle new image uploads
+    // Handle new image uploads (if files are provided)
+    const uploadedNewImages = [];
     if (newImages && newImages.length > 0) {
-      const uploadedImages = [];
       for (const image of newImages) {
-        try {
-          const result = await uploadImage(image.buffer, 'products');
-          uploadedImages.push({
-            url: result.url,
-            publicId: result.publicId,
-            isPrimary: false,
-            order: product.images.length + uploadedImages.length,
-          });
-        } catch (error) {
-          logger.error('Image upload error:', error);
+        // Only upload if it's a file buffer (from multer)
+        if (image.buffer) {
+          try {
+            const result = await uploadImage(image.buffer, 'products');
+            uploadedNewImages.push({
+              url: result.url,
+              publicId: result.publicId,
+              isPrimary: false,
+              order: product.images.length + uploadedNewImages.length,
+            });
+          } catch (error) {
+            logger.error('Image upload error:', error);
+          }
         }
       }
+    }
 
-      // Merge with existing images
-      if (productData.images) {
-        productData.images = [...productData.images, ...uploadedImages];
-      } else {
-        productData.images = [...product.images, ...uploadedImages];
-      }
+    // Handle images from productData (direct Cloudinary uploads or updates)
+    if (productData.images !== undefined) {
+      // If images are provided in productData, use them (they're already uploaded to Cloudinary)
+      // Merge with any newly uploaded files
+      productData.images = [...productData.images, ...uploadedNewImages];
+    } else if (uploadedNewImages.length > 0) {
+      // If only new files were uploaded, add them to existing images
+      productData.images = [...product.images, ...uploadedNewImages];
     }
 
     // Update product
@@ -341,4 +355,5 @@ class ProductService {
 }
 
 export default new ProductService();
+
 

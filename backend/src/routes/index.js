@@ -37,5 +37,9 @@ router.use(`/cart`, cartRoutes);
 import orderRoutes from './order.routes.js';
 router.use(`/orders`, orderRoutes);
 
+// Cloudinary routes
+import cloudinaryRoutes from './cloudinary.routes.js';
+router.use(`/cloudinary`, cloudinaryRoutes);
+
 export default router;
 

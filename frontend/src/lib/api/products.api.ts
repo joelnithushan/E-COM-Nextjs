@@ -89,3 +89,4 @@ export const getProduct = async (id: string): Promise<ProductResponse> => {
   return apiClient.get(`/products/${id}`);
 };
 
+

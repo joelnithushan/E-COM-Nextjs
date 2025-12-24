@@ -76,3 +76,4 @@ router.delete('/:id', authenticate, adminOnly, categoryController.deleteCategory
 
 export default router;
 
+

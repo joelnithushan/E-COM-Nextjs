@@ -71,3 +71,4 @@ export const getCategory = async (id: string): Promise<{
   return apiClient.get(`/categories/${id}`);
 };
 
+

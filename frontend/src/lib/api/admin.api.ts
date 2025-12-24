@@ -61,33 +61,27 @@ export const getAdminProducts = async (params?: {
 
 /**
  * Create product (admin)
+ * Note: Images are uploaded directly to Cloudinary, so we send JSON with image URLs
  */
-export const createProduct = async (data: FormData): Promise<{
+export const createProduct = async (data: any): Promise<{
   success: boolean;
   data: { product: Product };
 }> => {
-  return apiClient.post('/admin/products', data, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  return apiClient.post('/products', data);
 };
 
 /**
  * Update product (admin)
+ * Note: Images are uploaded directly to Cloudinary, so we send JSON with image URLs
  */
 export const updateProduct = async (
   id: string,
-  data: FormData
+  data: any
 ): Promise<{
   success: boolean;
   data: { product: Product };
 }> => {
-  return apiClient.put(`/admin/products/${id}`, data, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  return apiClient.put(`/products/${id}`, data);
 };
 
 /**
@@ -174,4 +168,5 @@ export const getInventoryStatus = async (params?: {
 
   return apiClient.get(url);
 };
+
 
