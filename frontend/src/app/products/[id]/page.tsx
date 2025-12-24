@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { Metadata } from 'next';
 import Image from 'next/image';
 import { getProduct, Product } from '@/lib/api/products.api';
 import { formatCurrency } from '@/lib/utils';
@@ -55,6 +54,30 @@ export default function ProductDetailPage() {
       fetchProduct();
     }
   }, [productId]);
+
+  const handleAddToCart = async () => {
+    if (!product) return;
+
+    setIsAddingToCart(true);
+    setAddToCartError(null);
+
+    try {
+      await addToCart({
+        productId: product._id,
+        quantity,
+        selectedVariants: [], // TODO: Get from variant selection
+      });
+      router.push('/cart');
+    } catch (err: any) {
+      setAddToCartError(
+        err.response?.data?.error?.message ||
+          err.message ||
+          'Failed to add item to cart'
+      );
+    } finally {
+      setIsAddingToCart(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -248,12 +271,11 @@ export default function ProductDetailPage() {
 
               {/* Additional Info */}
               <div className="border-t border-gray-200 pt-6 space-y-2 text-sm text-gray-600">
-                <p>
-                  <span className="font-medium">SKU:</span> {product.sku || 'N/A'}
-                </p>
-                <p>
-                  <span className="font-medium">Category:</span> {product.category?.name || 'N/A'}
-                </p>
+                {product.category && (
+                  <p>
+                    <span className="font-medium">Category:</span> {product.category.name}
+                  </p>
+                )}
               </div>
             </div>
           </div>
