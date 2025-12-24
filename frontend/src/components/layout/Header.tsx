@@ -4,9 +4,12 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Container from './Container';
 import Button from '@/components/ui/Button';
+import UserMenu from './UserMenu';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { isAuthenticated, isAdmin } = useAuth();
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
@@ -40,6 +43,22 @@ const Header: React.FC = () => {
             >
               Categories
             </Link>
+            {isAuthenticated && (
+              <Link
+                href="/orders"
+                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
+              >
+                Orders
+              </Link>
+            )}
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="px-4 py-2 text-sm font-medium text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+              >
+                Admin
+              </Link>
+            )}
             <Link
               href="/about"
               className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
@@ -94,30 +113,34 @@ const Header: React.FC = () => {
               </span>
             </Link>
 
-            {/* Login Button */}
-            <Link href="/login">
-              <Button variant="outline" size="sm" className="hidden sm:flex">
-                Login
-              </Button>
-              <button
-                className="p-2 text-gray-700 hover:text-primary-600 hover:bg-gray-100 rounded-lg transition-colors sm:hidden"
-                aria-label="Login"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+            {/* Auth Section */}
+            {isAuthenticated ? (
+              <UserMenu />
+            ) : (
+              <Link href="/login">
+                <Button variant="outline" size="sm" className="hidden sm:flex">
+                  Login
+                </Button>
+                <button
+                  className="p-2 text-gray-700 hover:text-primary-600 hover:bg-gray-100 rounded-lg transition-colors sm:hidden"
+                  aria-label="Login"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-              </button>
-            </Link>
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                </button>
+              </Link>
+            )}
 
             {/* Mobile Menu Button */}
             <button
@@ -170,6 +193,24 @@ const Header: React.FC = () => {
               >
                 Categories
               </Link>
+              {isAuthenticated && (
+                <Link
+                  href="/orders"
+                  className="px-4 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Orders
+                </Link>
+              )}
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  className="px-4 py-2 text-base font-medium text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Admin Dashboard
+                </Link>
+              )}
               <Link
                 href="/about"
                 className="px-4 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"

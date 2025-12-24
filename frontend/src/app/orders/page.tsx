@@ -9,6 +9,7 @@ import Button from '@/components/ui/Button';
 import Alert from '@/components/ui/Alert';
 import Spinner from '@/components/ui/Spinner';
 import Badge from '@/components/ui/Badge';
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { getOrders, Order } from '@/lib/api/orders.api';
 import { formatCurrency } from '@/lib/utils';
 
@@ -88,7 +89,8 @@ export default function OrdersPage() {
   }
 
   return (
-    <Section padding="lg">
+    <ProtectedRoute requireAuth>
+      <Section padding="lg">
       <Container>
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
@@ -215,6 +217,7 @@ export default function OrdersPage() {
         )}
       </Container>
     </Section>
+    </ProtectedRoute>
   );
 }
 

@@ -10,6 +10,7 @@ import Button from '@/components/ui/Button';
 import Alert from '@/components/ui/Alert';
 import Spinner from '@/components/ui/Spinner';
 import Card from '@/components/ui/Card';
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import {
   getCart,
   removeCartItem,
@@ -137,7 +138,8 @@ export default function CartPage() {
   const isEmpty = !cart || cart.items.length === 0;
 
   return (
-    <Section padding="lg">
+    <ProtectedRoute requireAuth>
+      <Section padding="lg">
       <Container>
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
@@ -339,6 +341,7 @@ export default function CartPage() {
         )}
       </Container>
     </Section>
+    </ProtectedRoute>
   );
 }
 

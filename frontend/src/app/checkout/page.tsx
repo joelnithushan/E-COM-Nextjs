@@ -9,6 +9,7 @@ import Input from '@/components/ui/Input';
 import Card from '@/components/ui/Card';
 import Alert from '@/components/ui/Alert';
 import Spinner from '@/components/ui/Spinner';
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { getCartSummary, CartSummary } from '@/lib/api/cart.api';
 import { createOrder } from '@/lib/api/orders.api';
 import { formatCurrency } from '@/lib/utils';
@@ -427,7 +428,8 @@ export default function CheckoutPage() {
   }
 
   return (
-    <Section padding="lg">
+    <ProtectedRoute requireAuth>
+      <Section padding="lg">
       <Container size="lg">
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
@@ -448,6 +450,7 @@ export default function CheckoutPage() {
         </Elements>
       </Container>
     </Section>
+    </ProtectedRoute>
   );
 }
 
