@@ -22,7 +22,8 @@
     "helmet": "^7.1.0",
     "express-rate-limit": "^7.1.5",
     "joi": "^17.11.0",
-    "cookie-parser": "^1.4.6"
+    "cookie-parser": "^1.4.6",
+    "stripe": "^14.7.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

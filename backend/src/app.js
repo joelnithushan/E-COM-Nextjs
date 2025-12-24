@@ -20,8 +20,19 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Body parser middleware
-app.use(express.json({ limit: '10mb' }));
+// IMPORTANT: Webhook routes need raw body for signature verification
+// So we handle webhook route BEFORE JSON parser
+// The webhook route itself uses express.raw() middleware
+
+// Body parser middleware (applied to all routes except webhooks)
+app.use((req, res, next) => {
+  // Skip JSON parsing for webhook routes (they use raw body)
+  if (req.path.startsWith('/api/v1/payments/webhook')) {
+    return next();
+  }
+  express.json({ limit: '10mb' })(req, res, next);
+});
+
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Cookie parser

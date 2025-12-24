@@ -17,6 +17,10 @@ router.get('/health', (req, res) => {
 // Auth routes
 router.use(`/auth`, authRoutes);
 
+// Payment routes
+import paymentRoutes from './payment.routes.js';
+router.use(`/payments`, paymentRoutes);
+
 // Add other routes here
 // router.use(`/products`, productRoutes);
 // router.use(`/orders`, orderRoutes);

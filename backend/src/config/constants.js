@@ -11,6 +11,20 @@ export const ORDER_STATUS = {
   CANCELLED: 'cancelled',
 };
 
+export const PAYMENT_STATUS = {
+  PENDING: 'pending',
+  PAID: 'paid',
+  FAILED: 'failed',
+  REFUNDED: 'refunded',
+  CANCELLED: 'cancelled',
+};
+
+export const PAYMENT_METHODS = {
+  STRIPE: 'stripe',
+  PAYPAL: 'paypal',
+  PAYHERE: 'payhere',
+};
+
 export const HTTP_STATUS = {
   OK: 200,
   CREATED: 201,
