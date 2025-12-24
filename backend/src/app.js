@@ -2,9 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
-import rateLimit from 'express-rate-limit';
 import routes from './routes/index.js';
 import { errorHandler, notFound } from './middleware/error.middleware.js';
+import { sanitizeMongo } from './middleware/security.middleware.js';
+import { apiLimiter, authLimiter } from './middleware/rate-limit.middleware.js';
 import { logger } from './utils/logger.util.js';
 
 const app = express();
@@ -19,10 +20,21 @@ app.use(
         scriptSrc: ["'self'"],
         imgSrc: ["'self'", 'data:', 'https://res.cloudinary.com'],
         connectSrc: ["'self'", 'https://api.stripe.com'],
+        fontSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: [],
       },
     },
     crossOriginEmbedderPolicy: false, // Allow Cloudinary images
     crossOriginResourcePolicy: { policy: 'cross-origin' }, // Allow Cloudinary resources
+    hsts: {
+      maxAge: 31536000, // 1 year
+      includeSubDomains: true,
+      preload: true,
+    },
+    noSniff: true,
+    xssFilter: true,
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
   })
 );
 
@@ -49,26 +61,16 @@ app.use((req, res, next) => {
 
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Cookie parser
+// Cookie parser with security options
 app.use(cookieParser());
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.',
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-app.use('/api/', limiter);
+// NoSQL injection prevention - MUST be before routes
+app.use(sanitizeMongo);
+
+// Rate limiting - General API
+app.use('/api/', apiLimiter);
 
 // Stricter rate limiting for auth routes
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5, // 5 login attempts per 15 minutes
-  message: 'Too many authentication attempts, please try again later.',
-  skipSuccessfulRequests: true,
-});
 app.use('/api/v1/auth/login', authLimiter);
 app.use('/api/v1/auth/register', authLimiter);
 
