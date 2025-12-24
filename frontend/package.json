@@ -14,7 +14,9 @@
     "next": "^14.0.4",
     "axios": "^1.6.2",
     "clsx": "^2.0.0",
-    "tailwind-merge": "^2.2.0"
+    "tailwind-merge": "^2.2.0",
+    "@stripe/stripe-js": "^2.4.0",
+    "@stripe/react-stripe-js": "^2.4.0"
   },
   "devDependencies": {
     "typescript": "^5.3.3",

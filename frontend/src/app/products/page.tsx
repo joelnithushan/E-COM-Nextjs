@@ -1,11 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { Metadata } from 'next';
 import { getProducts, Product, ProductsQueryParams } from '@/lib/api/products.api';
 import ProductGrid from '@/components/product/ProductGrid';
 import Alert from '@/components/ui/Alert';
 import Spinner from '@/components/ui/Spinner';
 import Button from '@/components/ui/Button';
+import Section from '@/components/layout/Section';
+import Container from '@/components/layout/Container';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -62,8 +65,8 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <Section padding="lg">
+      <Container>
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">All Products</h1>
@@ -182,8 +185,8 @@ export default function ProductsPage() {
             )}
           </>
         )}
-      </div>
-    </div>
+      </Container>
+    </Section>
   );
 }
 

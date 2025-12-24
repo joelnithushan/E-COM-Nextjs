@@ -2,12 +2,18 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { Metadata } from 'next';
 import Image from 'next/image';
 import { getProduct, Product } from '@/lib/api/products.api';
 import { formatCurrency } from '@/lib/utils';
 import Alert from '@/components/ui/Alert';
 import Spinner from '@/components/ui/Spinner';
 import Button from '@/components/ui/Button';
+import Section from '@/components/layout/Section';
+import Container from '@/components/layout/Container';
+import Badge from '@/components/ui/Badge';
+import { addToCart } from '@/lib/api/cart.api';
+import { useRouter } from 'next/navigation';
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -16,8 +22,11 @@ export default function ProductDetailPage() {
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [addToCartError, setAddToCartError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -70,8 +79,8 @@ export default function ProductDetailPage() {
   const isOutOfStock = product.stock === 0;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <Section padding="lg">
+      <Container>
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
             {/* Image Gallery */}
@@ -229,7 +238,9 @@ export default function ProductDetailPage() {
                   variant="primary"
                   size="lg"
                   className="flex-1"
-                  disabled={isOutOfStock}
+                  disabled={isOutOfStock || isAddingToCart}
+                  isLoading={isAddingToCart}
+                  onClick={handleAddToCart}
                 >
                   {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
                 </Button>
@@ -247,8 +258,14 @@ export default function ProductDetailPage() {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+
+        {addToCartError && (
+          <Alert variant="error" className="mt-6">
+            {addToCartError}
+          </Alert>
+        )}
+      </Container>
+    </Section>
   );
 }
 
