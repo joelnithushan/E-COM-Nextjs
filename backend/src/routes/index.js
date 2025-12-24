@@ -21,8 +21,15 @@ router.use(`/auth`, authRoutes);
 import paymentRoutes from './payment.routes.js';
 router.use(`/payments`, paymentRoutes);
 
+// Product routes
+import productRoutes from './product.routes.js';
+router.use(`/products`, productRoutes);
+
+// Category routes
+import categoryRoutes from './category.routes.js';
+router.use(`/categories`, categoryRoutes);
+
 // Add other routes here
-// router.use(`/products`, productRoutes);
 // router.use(`/orders`, orderRoutes);
 
 export default router;
