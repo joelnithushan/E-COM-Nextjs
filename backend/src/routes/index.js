@@ -29,6 +29,10 @@ router.use(`/products`, productRoutes);
 import categoryRoutes from './category.routes.js';
 router.use(`/categories`, categoryRoutes);
 
+// Cart routes
+import cartRoutes from './cart.routes.js';
+router.use(`/cart`, cartRoutes);
+
 // Add other routes here
 // router.use(`/orders`, orderRoutes);
 
