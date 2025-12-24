@@ -4,11 +4,25 @@ import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
-  title: 'E-Commerce Store',
-  description: 'Your trusted e-commerce destination',
+  title: {
+    default: 'Store - Your Trusted E-Commerce Destination',
+    template: '%s | Store',
+  },
+  description: 'Discover quality products at great prices. Your trusted e-commerce destination.',
+  keywords: ['ecommerce', 'online shopping', 'products'],
+  authors: [{ name: 'Store' }],
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    siteName: 'Store',
+  },
 };
 
 export default function RootLayout({
@@ -17,15 +31,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <div className="min-h-screen flex flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
+    <html lang="en" className={inter.variable}>
+      <body className="min-h-screen flex flex-col antialiased">
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );
 }
-
