@@ -1,20 +1,18 @@
-import dotenv from 'dotenv';
 import app from './src/app.js';
 import connectDB from './src/config/database.js';
 import { logger } from './src/utils/logger.util.js';
-
-// Load environment variables
-dotenv.config();
-
-const PORT = process.env.PORT || 5000;
+import config from './src/config/index.js';
 
 // Connect to database
 connectDB();
 
 // Start server
-app.listen(PORT, () => {
-  logger.info(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
-  logger.info(`API available at http://localhost:${PORT}/api/${process.env.API_VERSION || 'v1'}`);
+const { port, host, apiVersion } = config.server;
+
+app.listen(port, host, () => {
+  logger.info(`Server running in ${config.env} mode`);
+  logger.info(`Server listening on ${host}:${port}`);
+  logger.info(`API available at http://${host}:${port}/api/${apiVersion}`);
 });
 
 // Handle unhandled promise rejections

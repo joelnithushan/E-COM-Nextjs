@@ -1,14 +1,13 @@
 import axios from 'axios';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-const API_VERSION = process.env.NEXT_PUBLIC_API_VERSION || 'v1';
+import config from '@/config';
 
 const apiClient = axios.create({
-  baseURL: `${API_URL}/api/${API_VERSION}`,
+  baseURL: `${config.api.url}/api/${config.api.version}`,
   headers: {
     'Content-Type': 'application/json',
   },
   withCredentials: true,
+  timeout: config.api.timeout,
 });
 
 // Request interceptor - Add auth token if available
@@ -43,7 +42,7 @@ apiClient.interceptors.response.use(
       try {
         // Try to refresh token
         const refreshResponse = await axios.post(
-          `${API_URL}/api/${API_VERSION}/auth/refresh`,
+          `${config.api.url}/api/${config.api.version}/auth/refresh`,
           {},
           { withCredentials: true }
         );

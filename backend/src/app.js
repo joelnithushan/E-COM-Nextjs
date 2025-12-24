@@ -7,6 +7,7 @@ import { errorHandler, notFound } from './middleware/error.middleware.js';
 import { sanitizeMongo } from './middleware/security.middleware.js';
 import { apiLimiter, authLimiter } from './middleware/rate-limit.middleware.js';
 import { logger } from './utils/logger.util.js';
+import config from './config/index.js';
 
 const app = express();
 
@@ -40,7 +41,7 @@ app.use(
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: config.frontend.allowedOrigins,
   credentials: true,
   optionsSuccessStatus: 200,
 };
@@ -75,16 +76,16 @@ app.use('/api/v1/auth/login', authLimiter);
 app.use('/api/v1/auth/register', authLimiter);
 
 // API routes
-const API_VERSION = process.env.API_VERSION || 'v1';
-app.use(`/api/${API_VERSION}`, routes);
+app.use(`/api/${config.server.apiVersion}`, routes);
 
 // Root route
 app.get('/', (req, res) => {
   res.json({
     success: true,
     message: 'E-Commerce API',
-    version: API_VERSION,
-    docs: `/api/${API_VERSION}/health`,
+    version: config.server.apiVersion,
+    environment: config.env,
+    docs: `/api/${config.server.apiVersion}/health`,
   });
 });
 

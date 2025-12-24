@@ -21,10 +21,9 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
+import config from '@/config';
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''
-);
+const stripePromise = loadStripe(config.stripe.publishableKey);
 
 const PaymentForm: React.FC<{
   order: Order;

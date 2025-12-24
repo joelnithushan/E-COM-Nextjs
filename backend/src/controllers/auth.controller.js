@@ -2,6 +2,7 @@ import * as authService from '../services/auth.service.js';
 import { sendSuccess, sendError } from '../utils/response.util.js';
 import { HTTP_STATUS } from '../config/constants.js';
 import { logger } from '../utils/logger.util.js';
+import config from '../config/index.js';
 
 /**
  * Register a new user
@@ -13,9 +14,9 @@ export const register = async (req, res) => {
     // Set refresh token as httpOnly cookie
     res.cookie('refreshToken', result.refreshToken, {
       httpOnly: true,
-      secure: process.env.COOKIE_SECURE === 'true',
-      sameSite: process.env.COOKIE_SAME_SITE || 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      secure: config.cookies.secure,
+      sameSite: config.cookies.sameSite,
+      maxAge: config.cookies.maxAge,
     });
 
     sendSuccess(
@@ -48,9 +49,9 @@ export const login = async (req, res) => {
     // Set refresh token as httpOnly cookie
     res.cookie('refreshToken', result.refreshToken, {
       httpOnly: true,
-      secure: process.env.COOKIE_SECURE === 'true',
-      sameSite: process.env.COOKIE_SAME_SITE || 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      secure: config.cookies.secure,
+      sameSite: config.cookies.sameSite,
+      maxAge: config.cookies.maxAge,
     });
 
     sendSuccess(

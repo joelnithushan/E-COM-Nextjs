@@ -1,12 +1,14 @@
 import Stripe from 'stripe';
+import { logger } from '../utils/logger.util.js';
+import config from './index.js';
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('STRIPE_SECRET_KEY is not defined in environment variables');
+if (!config.stripe.secretKey) {
+  logger.warn('Stripe secret key not configured. Payment features will not work.');
 }
 
 // Initialize Stripe with secret key
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2024-11-20.acacia', // Use latest stable API version
+export const stripe = new Stripe(config.stripe.secretKey, {
+  apiVersion: config.stripe.apiVersion,
 });
 
 export default stripe;
