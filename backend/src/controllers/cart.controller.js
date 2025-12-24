@@ -133,11 +133,13 @@ export const clearCart = async (req, res) => {
 
 /**
  * Get cart summary (for checkout)
+ * Supports optional coupon code parameter
  */
 export const getCartSummary = async (req, res) => {
   try {
     const userId = req.user.id;
-    const summary = await cartService.getCartSummary(userId);
+    const { couponCode } = req.query; // Get coupon code from query string
+    const summary = await cartService.getCartSummary(userId, couponCode || null);
 
     sendSuccess(res, summary, 'Cart summary retrieved successfully');
   } catch (error) {

@@ -80,14 +80,18 @@ class ProductService {
     // Calculate pagination
     const skip = (Number(page) - 1) * Number(limit);
 
-    // Execute query
+    // Field selection to prevent over-fetching
+    const selectFields = 'name slug price compareAtPrice images stock status featured ratings category createdAt';
+
+    // Execute query with optimizations
     const [products, total] = await Promise.all([
       Product.find(filter)
-        .populate('category', 'name slug')
+        .select(selectFields) // Only fetch needed fields
+        .populate('category', 'name slug') // Minimal category data
         .sort(sortBy)
         .skip(skip)
         .limit(Number(limit))
-        .lean(),
+        .lean(), // Use lean for better performance
       Product.countDocuments(filter),
     ]);
 
@@ -108,7 +112,10 @@ class ProductService {
    * Get single product by ID
    */
   async getProductById(id) {
-    const product = await Product.findById(id).populate('category', 'name slug');
+    const product = await Product.findById(id)
+      .select('name slug description shortDescription price compareAtPrice images stock variants trackInventory allowBackorder sku weight dimensions status featured tags metaTitle metaDescription ratings salesCount category createdAt')
+      .populate('category', 'name slug description')
+      .lean();
 
     if (!product) {
       const error = new Error('Product not found');
@@ -123,7 +130,10 @@ class ProductService {
    * Get product by slug
    */
   async getProductBySlug(slug) {
-    const product = await Product.findOne({ slug }).populate('category', 'name slug');
+    const product = await Product.findOne({ slug })
+      .select('name slug description shortDescription price compareAtPrice images stock variants trackInventory allowBackorder sku weight dimensions status featured tags metaTitle metaDescription ratings salesCount category createdAt')
+      .populate('category', 'name slug description')
+      .lean();
 
     if (!product) {
       const error = new Error('Product not found');

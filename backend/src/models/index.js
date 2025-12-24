@@ -5,8 +5,10 @@ import Category from './Category.js';
 import Cart from './Cart.js';
 import Order from './Order.js';
 import Review from './Review.js';
+import FeatureToggle from './FeatureToggle.js';
+import Coupon from './Coupon.js';
 
-export { User, Product, Category, Cart, Order, Review };
+export { User, Product, Category, Cart, Order, Review, FeatureToggle, Coupon };
 
 export default {
   User,
@@ -15,6 +17,8 @@ export default {
   Cart,
   Order,
   Review,
+  FeatureToggle,
+  Coupon,
 };
 
 

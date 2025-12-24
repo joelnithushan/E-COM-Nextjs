@@ -3,13 +3,24 @@ import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import routes from './routes/index.js';
-import { errorHandler, notFound } from './middleware/error.middleware.js';
+import { errorHandler, notFoundHandler, initializeErrorHandlers } from './middleware/error-handler.middleware.js';
 import { sanitizeMongo } from './middleware/security.middleware.js';
 import { apiLimiter, authLimiter } from './middleware/rate-limit.middleware.js';
-import { logger } from './utils/logger.util.js';
+import logger from './config/logging.config.js';
+import errorTrackingService from './services/error-tracking.service.js';
+import { requestLogger } from './middleware/request-logger.middleware.js';
 import config from './config/index.js';
 
 const app = express();
+
+// Initialize error tracking (Sentry) - Must be first
+errorTrackingService.initializeSentry();
+
+// Initialize error handlers (unhandled rejections, uncaught exceptions)
+initializeErrorHandlers();
+
+// Request logging middleware (before routes)
+app.use(requestLogger);
 
 // Security middleware with enhanced configuration
 app.use(
@@ -89,8 +100,8 @@ app.get('/', (req, res) => {
   });
 });
 
-// 404 handler
-app.use(notFound);
+// 404 handler (before error handler)
+app.use(notFoundHandler);
 
 // Error handler (must be last)
 app.use(errorHandler);

@@ -8,6 +8,7 @@ const productSchema = new mongoose.Schema(
       trim: true,
       minlength: [3, 'Product name must be at least 3 characters'],
       maxlength: [100, 'Product name cannot exceed 100 characters'],
+      index: true, // Individual index for name searches
     },
     slug: {
       type: String,
@@ -30,6 +31,7 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: [true, 'Product price is required'],
       min: [0, 'Price cannot be negative'],
+      index: true, // For price sorting and filtering
     },
     compareAtPrice: {
       type: Number,
@@ -100,6 +102,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       min: [0, 'Stock cannot be negative'],
       default: 0,
+      index: true, // For stock filtering
     },
     // Track inventory
     trackInventory: {
@@ -116,6 +119,7 @@ const productSchema = new mongoose.Schema(
       unique: true,
       sparse: true,
       trim: true,
+      index: true, // For SKU lookups
     },
     // Weight and dimensions for shipping
     weight: {
@@ -161,6 +165,7 @@ const productSchema = new mongoose.Schema(
         default: 0,
         min: 0,
         max: 5,
+        index: true, // For rating-based sorting
       },
       count: {
         type: Number,
@@ -179,6 +184,7 @@ const productSchema = new mongoose.Schema(
     salesCount: {
       type: Number,
       default: 0,
+      index: true, // For bestseller sorting
     },
     // Created by admin
     createdBy: {
@@ -191,15 +197,44 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-// Indexes
-productSchema.index({ name: 'text', description: 'text', tags: 'text' }); // Text search
+// ============================================
+// OPTIMIZED INDEXES FOR PERFORMANCE
+// ============================================
+
+// Text search index (for full-text search)
+productSchema.index({ name: 'text', description: 'text', tags: 'text' });
+
+// Unique indexes
 productSchema.index({ slug: 1 }, { unique: true });
-productSchema.index({ category: 1, status: 1 });
+productSchema.index({ sku: 1 }, { unique: true, sparse: true });
+
+// Compound indexes for common query patterns
+// 1. Category + Status (most common filter combination)
+productSchema.index({ category: 1, status: 1, createdAt: -1 });
+
+// 2. Status + Featured + CreatedAt (homepage/featured products)
 productSchema.index({ status: 1, featured: 1, createdAt: -1 });
-productSchema.index({ price: 1 });
-productSchema.index({ sku: 1 }, { sparse: true });
-productSchema.index({ tags: 1 });
-productSchema.index({ 'ratings.average': -1 }); // For sorting by rating
+
+// 3. Status + Price (price filtering with status)
+productSchema.index({ status: 1, price: 1 });
+
+// 4. Status + Rating (rating-based sorting)
+productSchema.index({ status: 1, 'ratings.average': -1 });
+
+// 5. Status + SalesCount (bestseller sorting)
+productSchema.index({ status: 1, salesCount: -1 });
+
+// 6. Category + Status + Price (category page with price filter)
+productSchema.index({ category: 1, status: 1, price: 1 });
+
+// 7. Status + Stock (in-stock filtering)
+productSchema.index({ status: 1, stock: 1 });
+
+// 8. Tags index (for tag-based filtering)
+productSchema.index({ tags: 1, status: 1 });
+
+// 9. CreatedAt for time-based sorting (already covered in compound indexes, but explicit for clarity)
+productSchema.index({ createdAt: -1 });
 
 // Virtual for in-stock status
 productSchema.virtual('inStock').get(function () {
@@ -250,4 +285,3 @@ productSchema.set('toObject', { virtuals: true });
 const Product = mongoose.model('Product', productSchema);
 
 export default Product;
-

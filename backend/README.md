@@ -1,45 +1,42 @@
 # E-Commerce Backend API
 
-Backend API for single-vendor e-commerce platform.
+## Tech Stack
 
-## Setup
+### Core Technologies
+- **Node.js**
+- **Express.js**
+- **MongoDB** (Mongoose ODM)
 
-1. Install dependencies:
-```bash
-npm install
-```
+### Authentication & Security
+- **JWT** (jsonwebtoken)
+- **bcryptjs** (password hashing)
+- **Helmet** (security headers)
+- **express-rate-limit** (rate limiting)
+- **express-validator** (input validation)
+- **express-mongo-sanitize** (NoSQL injection prevention)
+- **cors** (cross-origin resource sharing)
+- **cookie-parser** (cookie handling)
 
-2. Create `.env` file (copy from `.env.example`):
-```bash
-cp .env.example .env
-```
+### Payments
+- **Stripe**
 
-3. Update `.env` with your configuration:
-- MongoDB connection string
-- JWT secret (use a strong random string)
-- Frontend URL for CORS
+### Image Storage
+- **Cloudinary**
 
-4. Start development server:
-```bash
-npm run dev
-```
+### Logging & Monitoring
+- **Winston** (logging)
+- **Sentry** (@sentry/node, @sentry/profiling-node)
 
-5. Start production server:
-```bash
-npm start
-```
+### Utilities
+- **dotenv** (environment variables)
+- **joi** (schema validation)
+- **mongo-sanitize** (data sanitization)
+- **multer** (file uploads)
+- **redis** (optional caching)
 
-## API Endpoints
-
-### Authentication
-- `POST /api/v1/auth/register` - Register new user
-- `POST /api/v1/auth/login` - Login user
-- `POST /api/v1/auth/refresh` - Refresh access token
-- `POST /api/v1/auth/logout` - Logout user
-- `GET /api/v1/auth/me` - Get current user (protected)
-
-## Environment Variables
-
-See `.env.example` for required variables.
+### Testing
+- **Jest** (testing framework)
+- **Supertest** (API testing)
+- **mongodb-memory-server** (in-memory MongoDB for tests)
 
 

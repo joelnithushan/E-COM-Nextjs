@@ -129,6 +129,26 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+// ============================================
+// OPTIMIZED INDEXES FOR PERFORMANCE
+// ============================================
+
+// Unique index for email (already defined in schema, but explicit)
+userSchema.index({ email: 1 }, { unique: true });
+
+// Compound indexes for common query patterns
+// 1. Role + isActive (admin user listing)
+userSchema.index({ role: 1, isActive: 1, createdAt: -1 });
+
+// 2. isActive + deletedAt (active users only)
+userSchema.index({ isActive: 1, deletedAt: 1 });
+
+// 3. Email + isActive (login queries)
+userSchema.index({ email: 1, isActive: 1 });
+
+// 4. CreatedAt (for user analytics)
+userSchema.index({ createdAt: -1 });
+
 // Hash password before saving
 userSchema.pre('save', async function (next) {
   // Only hash if password is modified
