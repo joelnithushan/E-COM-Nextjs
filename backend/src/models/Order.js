@@ -24,18 +24,30 @@ const orderSchema = new mongoose.Schema(
         },
         name: {
           type: String,
-          required: true,
+          required: true, // Snapshot of product name
+        },
+        sku: {
+          type: String, // Snapshot of SKU
         },
         price: {
           type: Number,
-          required: true,
+          required: true, // Snapshot of price at time of order
         },
         quantity: {
           type: Number,
           required: true,
           min: 1,
         },
-        image: String,
+        image: {
+          type: String, // Snapshot of product image
+        },
+        // Variant information (snapshot)
+        selectedVariants: [
+          {
+            variantName: String,
+            optionValue: String,
+          },
+        ],
         subtotal: {
           type: Number,
           required: true,
@@ -120,8 +132,18 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
     notes: String,
+    // Admin notes (internal)
+    adminNotes: String,
     cancelledAt: Date,
     cancelledReason: String,
+    // Timestamps for order lifecycle
+    paidAt: {
+      type: Date,
+      index: true,
+    },
+    processingAt: Date,
+    shippedAt: Date,
+    deliveredAt: Date,
   },
   {
     timestamps: true,
@@ -129,10 +151,14 @@ const orderSchema = new mongoose.Schema(
 );
 
 // Indexes
+orderSchema.index({ orderNumber: 1 }, { unique: true });
 orderSchema.index({ user: 1, createdAt: -1 });
 orderSchema.index({ status: 1, createdAt: -1 });
-orderSchema.index({ 'payment.status': 1 });
+orderSchema.index({ 'payment.status': 1, createdAt: -1 });
 orderSchema.index({ 'payment.paymentIntentId': 1 });
+orderSchema.index({ 'payment.transactionId': 1 }, { sparse: true });
+orderSchema.index({ paidAt: -1 });
+orderSchema.index({ orderNumber: 'text' }); // Text search for order number
 
 // Generate order number before saving
 orderSchema.pre('save', async function (next) {

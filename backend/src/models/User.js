@@ -56,6 +56,73 @@ const userSchema = new mongoose.Schema(
     lastLogin: {
       type: Date,
     },
+    // Address book for customers
+    addresses: [
+      {
+        type: {
+          type: String,
+          enum: ['home', 'work', 'other'],
+          default: 'home',
+        },
+        name: {
+          type: String,
+          required: true,
+        },
+        street: {
+          type: String,
+          required: true,
+        },
+        city: {
+          type: String,
+          required: true,
+        },
+        state: {
+          type: String,
+          required: true,
+        },
+        zipCode: {
+          type: String,
+          required: true,
+        },
+        country: {
+          type: String,
+          required: true,
+          default: 'US',
+        },
+        phone: {
+          type: String,
+        },
+        isDefault: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    ],
+    // Customer preferences
+    preferences: {
+      emailNotifications: {
+        type: Boolean,
+        default: true,
+      },
+      smsNotifications: {
+        type: Boolean,
+        default: false,
+      },
+      newsletter: {
+        type: Boolean,
+        default: false,
+      },
+    },
+    // Account status
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    // Soft delete
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,
@@ -92,6 +159,16 @@ userSchema.methods.toJSON = function () {
   delete userObject.passwordResetToken;
   delete userObject.passwordResetExpires;
   return userObject;
+};
+
+// Method to get default address
+userSchema.methods.getDefaultAddress = function () {
+  return this.addresses.find((addr) => addr.isDefault) || this.addresses[0] || null;
+};
+
+// Query helper for active users only
+userSchema.query.active = function () {
+  return this.where({ isActive: true, deletedAt: null });
 };
 
 const User = mongoose.model('User', userSchema);
