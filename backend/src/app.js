@@ -9,8 +9,22 @@ import { logger } from './utils/logger.util.js';
 
 const app = express();
 
-// Security middleware
-app.use(helmet());
+// Security middleware with enhanced configuration
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'"],
+        imgSrc: ["'self'", 'data:', 'https://res.cloudinary.com'],
+        connectSrc: ["'self'", 'https://api.stripe.com'],
+      },
+    },
+    crossOriginEmbedderPolicy: false, // Allow Cloudinary images
+    crossOriginResourcePolicy: { policy: 'cross-origin' }, // Allow Cloudinary resources
+  })
+);
 
 // CORS configuration
 const corsOptions = {

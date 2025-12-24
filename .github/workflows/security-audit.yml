@@ -1,0 +1,48 @@
+name: Security Audit
+
+on:
+  schedule:
+    # Run weekly on Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: [frontend, backend]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ${{ matrix.project }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./${{ matrix.project }}
+        run: npm ci
+
+      - name: Run npm audit
+        working-directory: ./${{ matrix.project }}
+        run: npm audit --audit-level=moderate
+
+      - name: Check for outdated packages
+        working-directory: ./${{ matrix.project }}
+        run: npm outdated || true
+
+      - name: Create security report
+        if: always()
+        working-directory: ./${{ matrix.project }}
+        run: |
+          echo "## Security Audit Report - ${{ matrix.project }}" >> $GITHUB_STEP_SUMMARY
+          echo "Date: $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          npm audit --json > audit-report.json || true
+          echo "Audit completed. Check audit-report.json for details." >> $GITHUB_STEP_SUMMARY
+
