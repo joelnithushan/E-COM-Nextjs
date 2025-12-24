@@ -1,8 +1,9 @@
 import Order from '../../models/Order.js';
 import { StripeGateway } from './stripe.gateway.js';
-import { PAYMENT_STATUS, PAYMENT_METHODS } from '../../config/constants.js';
+import { PAYMENT_STATUS, PAYMENT_METHODS, ORDER_STATUS } from '../../config/constants.js';
 import { logger } from '../../utils/logger.util.js';
 import { HTTP_STATUS } from '../../config/constants.js';
+import orderService from '../order.service.js';
 
 /**
  * Payment Service
@@ -117,16 +118,12 @@ class PaymentService {
       // Verify payment
       const verification = await gateway.verifyPayment(paymentIntentId);
 
-      // Update order payment status
-      order.payment.status = verification.status;
-      order.payment.transactionId = verification.transactionId;
-
-      if (verification.success) {
-        order.payment.paidAt = verification.paidAt || new Date();
-        order.status = 'processing'; // Move order to processing after payment
-      }
-
-      await order.save();
+      // Update order payment status using order service
+      await orderService.updatePaymentStatus(
+        orderId,
+        verification.status,
+        verification.transactionId
+      );
 
       return {
         success: verification.success,
@@ -162,28 +159,36 @@ class PaymentService {
         return { processed: false, reason: 'Order not found' };
       }
 
-      // Update order based on webhook event
+      // Update order based on webhook event using order service
       switch (webhookData.eventType) {
         case 'payment.succeeded':
-          order.payment.status = PAYMENT_STATUS.PAID;
-          order.payment.paidAt = webhookData.paidAt || new Date();
-          order.status = 'processing';
+          await orderService.updatePaymentStatus(
+            order._id.toString(),
+            PAYMENT_STATUS.PAID,
+            webhookData.paymentIntentId
+          );
           break;
 
         case 'payment.failed':
-          order.payment.status = PAYMENT_STATUS.FAILED;
+          await orderService.updatePaymentStatus(
+            order._id.toString(),
+            PAYMENT_STATUS.FAILED
+          );
           break;
 
         case 'payment.refunded':
-          order.payment.status = PAYMENT_STATUS.REFUNDED;
+          await orderService.updatePaymentStatus(
+            order._id.toString(),
+            PAYMENT_STATUS.REFUNDED
+          );
+          // Also update refund timestamp
           order.payment.refundedAt = new Date();
+          await order.save();
           break;
 
         default:
           logger.info(`Unhandled webhook event type: ${webhookData.eventType}`);
       }
-
-      await order.save();
 
       return {
         processed: true,
