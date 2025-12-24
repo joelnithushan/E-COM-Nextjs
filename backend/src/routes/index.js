@@ -33,8 +33,9 @@ router.use(`/categories`, categoryRoutes);
 import cartRoutes from './cart.routes.js';
 router.use(`/cart`, cartRoutes);
 
-// Add other routes here
-// router.use(`/orders`, orderRoutes);
+// Order routes
+import orderRoutes from './order.routes.js';
+router.use(`/orders`, orderRoutes);
 
 export default router;
 
