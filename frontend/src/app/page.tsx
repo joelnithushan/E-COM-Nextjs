@@ -103,7 +103,7 @@ export default async function HomePage() {
                       />
                     </div>
                   )}
-                  <h3 className="font-semibold text-gray-900 group-hover:text-black transition-colors underline"
+                  <h3 className="font-semibold text-gray-900 group-hover:text-black transition-colors">
                     {category.name}
                   </h3>
                 </div>
