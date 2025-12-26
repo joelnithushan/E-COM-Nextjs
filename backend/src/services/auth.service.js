@@ -165,6 +165,38 @@ export const getCurrentUser = async (userId) => {
   return user.toJSON();
 };
 
+/**
+ * Update user profile
+ * @param {String} userId - User ID
+ * @param {Object} updateData - Data to update
+ * @returns {Object} Updated user object
+ */
+export const updateProfile = async (userId, updateData) => {
+  const allowedFields = ['name', 'phone'];
+  const updateFields = {};
+
+  // Only allow updating specific fields
+  allowedFields.forEach((field) => {
+    if (updateData[field] !== undefined) {
+      updateFields[field] = updateData[field];
+    }
+  });
+
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { $set: updateFields },
+    { new: true, runValidators: true }
+  );
+
+  if (!user) {
+    const error = new Error('User not found');
+    error.statusCode = HTTP_STATUS.NOT_FOUND;
+    throw error;
+  }
+
+  return user.toJSON();
+};
+
 
 
 

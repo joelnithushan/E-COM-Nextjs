@@ -5,6 +5,7 @@ import {
   registerSchema,
   loginSchema,
   refreshTokenSchema,
+  updateProfileSchema,
 } from '../validators/auth.validator.js';
 import { authenticate } from '../middleware/auth.middleware.js';
 
@@ -44,6 +45,13 @@ router.post('/logout', authenticate, authController.logout);
  * @access  Private
  */
 router.get('/me', authenticate, authController.getCurrentUser);
+
+/**
+ * @route   PUT /api/v1/auth/me
+ * @desc    Update user profile
+ * @access  Private
+ */
+router.put('/me', authenticate, validate(updateProfileSchema), authController.updateProfile);
 
 export default router;
 

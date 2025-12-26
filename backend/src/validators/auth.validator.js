@@ -46,6 +46,15 @@ export const changePasswordSchema = Joi.object({
   }),
 });
 
+// Update profile validation schema
+export const updateProfileSchema = Joi.object({
+  name: Joi.string().min(2).max(50).trim().optional().messages({
+    'string.min': 'Name must be at least 2 characters',
+    'string.max': 'Name cannot exceed 50 characters',
+  }),
+  phone: Joi.string().trim().allow('', null).optional(),
+});
+
 
 
 

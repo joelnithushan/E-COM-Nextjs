@@ -133,4 +133,21 @@ export const getCurrentUser = async (req, res) => {
   }
 };
 
+/**
+ * Update user profile
+ */
+export const updateProfile = async (req, res) => {
+  try {
+    const user = await authService.updateProfile(req.user.id, req.body);
+    sendSuccess(res, { user }, 'Profile updated successfully');
+  } catch (error) {
+    logger.error('Update profile error:', error);
+    sendError(
+      res,
+      error.message || 'Failed to update profile',
+      error.statusCode || HTTP_STATUS.INTERNAL_SERVER_ERROR
+    );
+  }
+};
+
 
