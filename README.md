@@ -46,3 +46,8 @@
 - **dotenv** (Environment Variables)
 - **Redis** (Optional Caching)
 - **Docker** (Containerization)
+
+### Development
+- **ESLint** (Code Linting)
+- **Jest** (Testing)
+- **Nodemon** (Development Server)
