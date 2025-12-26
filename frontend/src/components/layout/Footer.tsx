@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Container from './Container';
 
 const Footer: React.FC = () => {
@@ -13,13 +14,19 @@ const Footer: React.FC = () => {
             {/* Brand */}
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold">S</span>
+                <div className="w-8 h-8 flex items-center justify-center">
+                  <Image
+                    src="/logo.svg"
+                    alt="Zyra Logo"
+                    width={32}
+                    height={32}
+                    className="w-full h-full"
+                  />
                 </div>
-                <span className="text-xl font-bold text-white">Store</span>
+                <span className="text-xl font-bold text-white">Zyra</span>
               </div>
               <p className="text-sm text-gray-400 leading-relaxed">
-                Your trusted e-commerce destination for quality products.
+                Premium imported shoes in Sri Lanka. Quality footwear from top international brands.
               </p>
             </div>
 
@@ -141,7 +148,7 @@ const Footer: React.FC = () => {
           <div className="mt-12 pt-8 border-t border-gray-800">
             <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
               <p className="text-sm text-gray-400">
-                &copy; {currentYear} Store. All rights reserved.
+                &copy; {currentYear} Zyra. All rights reserved.
               </p>
               <div className="flex flex-wrap gap-4 justify-center sm:justify-end">
                 <Link

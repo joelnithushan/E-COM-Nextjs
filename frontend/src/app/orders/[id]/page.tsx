@@ -79,7 +79,7 @@ export default function OrderDetailPage() {
         <div className="mb-8">
           <Link
             href="/orders"
-            className="text-primary-600 hover:text-primary-700 font-medium mb-4 inline-block"
+            className="text-black hover:text-gray-800 font-medium mb-4 inline-block underline"
           >
             ← Back to Orders
           </Link>
@@ -131,7 +131,7 @@ export default function OrderDetailPage() {
                       <div className="flex-1 min-w-0">
                         <Link
                           href={`/products/${item.product._id}`}
-                          className="font-medium text-gray-900 hover:text-primary-600 transition-colors"
+                          className="font-medium text-gray-900 hover:text-black transition-colors underline"
                         >
                           {item.name}
                         </Link>
@@ -141,10 +141,10 @@ export default function OrderDetailPage() {
                         {item.selectedVariants &&
                           item.selectedVariants.length > 0 && (
                             <p className="text-sm text-gray-600">
-                              {item.selectedVariants.map((v, idx) => (
+                              {item.selectedVariants.map((v, idx, arr) => (
                                 <span key={idx}>
                                   {v.variantName}: {v.optionValue}
-                                  {idx < item.selectedVariants.length - 1 && ', '}
+                                  {idx < arr.length - 1 && ', '}
                                 </span>
                               ))}
                             </p>

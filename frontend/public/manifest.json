@@ -1,11 +1,11 @@
 {
-  "name": "E-Commerce Store",
-  "short_name": "Store",
-  "description": "Your trusted e-commerce destination",
+  "name": "Zyra - Imported Shoes",
+  "short_name": "Zyra",
+  "description": "Premium imported shoes in Sri Lanka",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#3b82f6",
+  "theme_color": "#000000",
   "orientation": "portrait-primary",
   "scope": "/",
   "icons": [

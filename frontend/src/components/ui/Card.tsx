@@ -8,7 +8,7 @@ interface CardProps {
   padding?: 'none' | 'sm' | 'md' | 'lg';
 }
 
-const Card: React.FC<CardProps> = ({
+const CardComponent: React.FC<CardProps> = ({
   children,
   className,
   hover = false,
@@ -33,6 +33,15 @@ const Card: React.FC<CardProps> = ({
       {children}
     </div>
   );
+};
+
+// Create Card with sub-components
+const Card = CardComponent as typeof CardComponent & {
+  Header: typeof CardHeader;
+  Title: typeof CardTitle;
+  Description: typeof CardDescription;
+  Content: typeof CardContent;
+  Footer: typeof CardFooter;
 };
 
 const CardHeader: React.FC<{

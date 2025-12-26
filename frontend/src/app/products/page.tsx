@@ -85,7 +85,7 @@ export default function ProductsPage() {
               id="sort"
               value={filters.sort || 'newest'}
               onChange={(e) => handleSortChange(e.target.value as ProductsQueryParams['sort'])}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black"
             >
               <option value="newest">Newest</option>
               <option value="price_asc">Price: Low to High</option>
@@ -157,7 +157,7 @@ export default function ProductsPage() {
                           onClick={() => handlePageChange(page)}
                           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                             pagination.page === page
-                              ? 'bg-primary-600 text-white'
+                              ? 'bg-black text-white'
                               : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
                           }`}
                         >

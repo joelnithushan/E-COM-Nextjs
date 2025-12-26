@@ -73,7 +73,7 @@ export const initializeSentry = () => {
       ],
       
       // Before send hook to sanitize data
-      beforeSend(event, hint) {
+      beforeSend(event: any, hint: any) {
         // Don't send events for localhost in development
         if (window.location.hostname === 'localhost') {
           return null;
@@ -116,7 +116,7 @@ export const captureException = (error: Error, context?: {
     return;
   }
 
-  SentryModule.withScope((scope) => {
+  SentryModule.withScope((scope: any) => {
     if (context?.userId) {
       scope.setUser({ id: context.userId });
     }
@@ -154,7 +154,7 @@ export const captureMessage = (
     return;
   }
 
-  SentryModule.withScope((scope) => {
+  SentryModule.withScope((scope: any) => {
     if (context?.userId) {
       scope.setUser({ id: context.userId });
     }

@@ -225,7 +225,7 @@ export default function CartPage() {
                           href={`/products/${item.product._id}`}
                           className="block"
                         >
-                          <h3 className="text-lg font-semibold text-gray-900 mb-1 hover:text-primary-600 transition-colors">
+                          <h3 className="text-lg font-semibold text-gray-900 mb-1 hover:text-black transition-colors">
                             {item.product.name}
                           </h3>
                         </Link>
@@ -287,7 +287,7 @@ export default function CartPage() {
                         <button
                           onClick={() => handleRemoveItem(item._id)}
                           disabled={isUpdating}
-                          className="mt-2 text-sm text-error-600 hover:text-error-700 font-medium disabled:opacity-50"
+                          className="mt-2 text-sm text-black hover:text-gray-800 font-medium disabled:opacity-50 underline"
                         >
                           Remove
                         </button>
@@ -331,7 +331,7 @@ export default function CartPage() {
 
                 <Link
                   href="/products"
-                  className="block mt-4 text-center text-sm text-primary-600 hover:text-primary-700 font-medium"
+                  className="block mt-4 text-center text-sm text-black hover:text-gray-800 font-medium underline"
                 >
                   Continue Shopping
                 </Link>

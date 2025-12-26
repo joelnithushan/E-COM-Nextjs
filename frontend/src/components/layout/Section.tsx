@@ -30,7 +30,7 @@ const Section: React.FC<SectionProps> = ({
   const backgroundClasses = {
     white: 'bg-white',
     gray: 'bg-gray-50',
-    primary: 'bg-primary-50',
+    primary: 'bg-gray-100',
     transparent: '',
   };
 

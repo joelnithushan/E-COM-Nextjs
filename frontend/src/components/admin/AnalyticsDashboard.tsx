@@ -67,7 +67,7 @@ const OrdersChart = ({ data }: { data: OrdersPerDayData[] }) => {
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <div
-                  className="bg-blue-500 h-6 rounded"
+                  className="bg-black h-6 rounded"
                   style={{
                     width: `${(item.orders / maxOrders) * 100}%`,
                     minWidth: item.orders > 0 ? '4px' : '0',
@@ -214,8 +214,8 @@ export const AnalyticsDashboard = () => {
   if (!analyticsEnabled) {
     return (
       <div className="p-6">
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-          <p className="text-yellow-800">
+        <div className="bg-gray-100 border border-gray-400 rounded-lg p-4">
+          <p className="text-black">
             Analytics feature is not enabled. Please enable it in feature settings.
           </p>
         </div>
@@ -226,8 +226,8 @@ export const AnalyticsDashboard = () => {
   if (error) {
     return (
       <div className="p-6">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-800">Error loading analytics: {error}</p>
+        <div className="bg-black border border-black rounded-lg p-4">
+          <p className="text-white">Error loading analytics: {error}</p>
         </div>
       </div>
     );

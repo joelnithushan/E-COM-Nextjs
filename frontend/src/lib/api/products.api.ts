@@ -59,6 +59,8 @@ export interface ProductsQueryParams {
   maxPrice?: number;
   sort?: 'price_asc' | 'price_desc' | 'name_asc' | 'name_desc' | 'newest';
   inStock?: boolean;
+  featured?: boolean;
+  status?: 'active' | 'inactive' | 'draft';
 }
 
 /**

@@ -85,7 +85,7 @@ export default function AdminDashboard() {
             {change !== undefined && (
               <p
                 className={`text-sm mt-1 ${
-                  change >= 0 ? 'text-success-600' : 'text-error-600'
+                  change >= 0 ? 'text-black' : 'text-gray-700'
                 }`}
               >
                 {change >= 0 ? '+' : ''}
@@ -93,7 +93,7 @@ export default function AdminDashboard() {
               </p>
             )}
           </div>
-          <div className="p-3 bg-primary-100 rounded-lg">{icon}</div>
+          <div className="p-3 bg-gray-200 rounded-lg">{icon}</div>
         </div>
       </Card>
     );
@@ -124,7 +124,7 @@ export default function AdminDashboard() {
             change={stats.revenueChange}
             icon={
               <svg
-                className="w-6 h-6 text-primary-600"
+                className="w-6 h-6 text-black"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -145,7 +145,7 @@ export default function AdminDashboard() {
             change={stats.ordersChange}
             icon={
               <svg
-                className="w-6 h-6 text-primary-600"
+                className="w-6 h-6 text-black"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -166,7 +166,7 @@ export default function AdminDashboard() {
             change={stats.productsChange}
             icon={
               <svg
-                className="w-6 h-6 text-primary-600"
+                className="w-6 h-6 text-black"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -187,7 +187,7 @@ export default function AdminDashboard() {
             change={stats.customersChange}
             icon={
               <svg
-                className="w-6 h-6 text-primary-600"
+                className="w-6 h-6 text-black"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -216,7 +216,7 @@ export default function AdminDashboard() {
               <h2 className="text-lg font-semibold text-gray-900">Recent Orders</h2>
               <Link
                 href="/admin/orders"
-                className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+                className="text-sm text-black hover:text-gray-800 font-medium underline"
               >
                 View all
               </Link>
@@ -231,7 +231,7 @@ export default function AdminDashboard() {
                   <Link
                     key={order._id}
                     href={`/admin/orders/${order._id}`}
-                    className="block p-4 border border-gray-200 rounded-lg hover:border-primary-300 hover:bg-gray-50 transition-colors"
+                    className="block p-4 border border-gray-200 rounded-lg hover:border-black hover:bg-gray-50 transition-colors"
                   >
                     <div className="flex items-center justify-between">
                       <div>
@@ -266,7 +266,7 @@ export default function AdminDashboard() {
               <h2 className="text-lg font-semibold text-gray-900">Low Stock Alert</h2>
               <Link
                 href="/admin/inventory"
-                className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+                className="text-sm text-black hover:text-gray-800 font-medium underline"
               >
                 View all
               </Link>
@@ -281,12 +281,12 @@ export default function AdminDashboard() {
                   <Link
                     key={product._id}
                     href={`/admin/products/${product._id}`}
-                    className="block p-4 border border-gray-200 rounded-lg hover:border-warning-300 hover:bg-warning-50 transition-colors"
+                    className="block p-4 border border-gray-200 rounded-lg hover:border-gray-400 hover:bg-gray-100 transition-colors"
                   >
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="font-medium text-gray-900">{product.name}</p>
-                        <p className="text-sm text-warning-600 mt-1">
+                        <p className="text-sm text-gray-700 mt-1">
                           Only {product.stock} left in stock
                         </p>
                       </div>

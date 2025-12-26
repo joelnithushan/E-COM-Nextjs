@@ -77,15 +77,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
           {hasDiscount && (
-            <Suspense fallback={<div className="bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded w-12 h-6" />}>
-              <span className="bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">
+            <Suspense fallback={<div className="bg-black text-white text-xs font-semibold px-2 py-1 rounded w-12 h-6" />}>
+              <span className="bg-black text-white text-xs font-semibold px-2 py-1 rounded">
                 -{discountPercentage}%
               </span>
             </Suspense>
           )}
           {product.featured && (
-            <Suspense fallback={<div className="bg-primary-600 text-white text-xs font-semibold px-2 py-1 rounded w-16 h-6" />}>
-              <span className="bg-primary-600 text-white text-xs font-semibold px-2 py-1 rounded">
+            <Suspense fallback={<div className="bg-gray-800 text-white text-xs font-semibold px-2 py-1 rounded w-16 h-6" />}>
+              <span className="bg-gray-800 text-white text-xs font-semibold px-2 py-1 rounded">
                 Featured
               </span>
             </Suspense>
@@ -117,7 +117,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         )}
 
         {/* Title */}
-        <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
+        <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-black transition-colors underline"
           {product.name}
         </h3>
 
@@ -131,7 +131,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   className={cn(
                     'w-4 h-4',
                     i < Math.round(product.ratings.average)
-                      ? 'text-yellow-400 fill-current'
+                      ? 'text-black fill-current'
                       : 'text-gray-300'
                   )}
                   fill="currentColor"
@@ -162,7 +162,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Stock Indicator */}
         {!isOutOfStock && product.stock < 10 && (
-          <p className="text-xs text-orange-600 mt-1">
+          <p className="text-xs text-gray-700 mt-1">
             Only {product.stock} left in stock
           </p>
         )}

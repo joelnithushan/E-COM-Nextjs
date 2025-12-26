@@ -11,10 +11,10 @@ import { Product } from '@/lib/api/products.api';
 
 export const metadata: Metadata = {
   title: 'Home',
-  description: 'Discover quality products at great prices. Your trusted e-commerce destination.',
+  description: 'Shop premium imported shoes in Sri Lanka. Discover quality footwear from top international brands at Zyra.',
   openGraph: {
-    title: 'Store - Your Trusted E-Commerce Destination',
-    description: 'Discover quality products at great prices.',
+    title: 'Zyra - Premium Imported Shoes in Sri Lanka',
+    description: 'Shop premium imported shoes in Sri Lanka. Discover quality footwear from top international brands.',
     type: 'website',
   },
 };
@@ -53,10 +53,10 @@ export default async function HomePage() {
       <Section padding="xl" background="primary" className="text-center">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-            Welcome to Store
+            Welcome to Zyra
           </h1>
-          <p className="text-xl md:text-2xl text-primary-100 mb-8">
-            Discover quality products at unbeatable prices
+          <p className="text-xl md:text-2xl text-white mb-8">
+            Premium Imported Shoes in Sri Lanka
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/products">
@@ -103,7 +103,7 @@ export default async function HomePage() {
                       />
                     </div>
                   )}
-                  <h3 className="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">
+                  <h3 className="font-semibold text-gray-900 group-hover:text-black transition-colors underline"
                     {category.name}
                   </h3>
                 </div>
@@ -147,9 +147,9 @@ export default async function HomePage() {
       <Section padding="lg">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="text-center">
-            <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-gray-200 border-2 border-black rounded-full flex items-center justify-center mx-auto mb-4">
               <svg
-                className="w-8 h-8 text-primary-600"
+                className="w-8 h-8 text-black"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -171,9 +171,9 @@ export default async function HomePage() {
           </div>
 
           <div className="text-center">
-            <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-gray-200 border-2 border-black rounded-full flex items-center justify-center mx-auto mb-4">
               <svg
-                className="w-8 h-8 text-primary-600"
+                className="w-8 h-8 text-black"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -195,9 +195,9 @@ export default async function HomePage() {
           </div>
 
           <div className="text-center">
-            <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-gray-200 border-2 border-black rounded-full flex items-center justify-center mx-auto mb-4">
               <svg
-                className="w-8 h-8 text-primary-600"
+                className="w-8 h-8 text-black"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

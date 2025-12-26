@@ -53,11 +53,15 @@ const nextConfig = {
   
   // Image optimization
   images: {
-    domains: ['res.cloudinary.com'],
+    domains: ['res.cloudinary.com', 'images.unsplash.com'],
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
       },
     ],
     formats: ['image/avif', 'image/webp'],
@@ -76,9 +80,10 @@ const nextConfig = {
   swcMinify: true,
   
   // Experimental features for performance
-  experimental: {
-    optimizeCss: true,
-  },
+  // Note: optimizeCss disabled - requires 'critters' package
+  // experimental: {
+  //   optimizeCss: true,
+  // },
   
   // Headers for performance
   async headers() {

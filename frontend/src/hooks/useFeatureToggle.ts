@@ -3,7 +3,7 @@
  * React hook for checking feature availability
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { getEnabledFeatures, getFeature, type FeatureToggle } from '@/lib/api/feature-toggle.api';
 
 interface UseFeatureToggleReturn {
@@ -95,12 +95,12 @@ export const useFeature = (featureKey: string) => {
 /**
  * Higher-order component to conditionally render based on feature
  */
-export const withFeature = <P extends object>(
+export function withFeature<P extends object>(
   Component: React.ComponentType<P>,
   featureKey: string,
   FallbackComponent?: React.ComponentType<P>
-) => {
-  return (props: P) => {
+): React.ComponentType<P> {
+  return function FeatureWrappedComponent(props: P): React.ReactElement | null {
     const { enabled, isLoading } = useFeature(featureKey);
 
     if (isLoading) {
@@ -108,12 +108,15 @@ export const withFeature = <P extends object>(
     }
 
     if (!enabled) {
-      return FallbackComponent ? <FallbackComponent {...props} /> : null;
+      if (FallbackComponent) {
+        return React.createElement(FallbackComponent, props);
+      }
+      return null;
     }
 
-    return <Component {...props} />;
+    return React.createElement(Component, props);
   };
-};
+}
 
 
 

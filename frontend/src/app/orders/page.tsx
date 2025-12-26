@@ -139,7 +139,7 @@ export default function OrdersPage() {
                     <div className="flex items-center gap-4 mb-2">
                       <Link
                         href={`/orders/${order._id}`}
-                        className="text-lg font-semibold text-gray-900 hover:text-primary-600 transition-colors"
+                        className="text-lg font-semibold text-gray-900 hover:text-black transition-colors underline"
                       >
                         {order.orderNumber}
                       </Link>

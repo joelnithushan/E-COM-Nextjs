@@ -7,7 +7,7 @@
  */
 
 // Determine environment
-const NODE_ENV = process.env.NODE_ENV || 'development';
+const NODE_ENV = (process.env.NODE_ENV || 'development') as string;
 const isDevelopment = NODE_ENV === 'development';
 const isStaging = NODE_ENV === 'staging';
 const isProduction = NODE_ENV === 'production';

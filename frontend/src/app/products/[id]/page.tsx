@@ -145,7 +145,7 @@ export default function ProductDetailPage() {
                       onClick={() => setSelectedImageIndex(index)}
                       className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-colors ${
                         selectedImageIndex === index
-                          ? 'border-primary-600'
+                          ? 'border-black'
                           : 'border-gray-200 hover:border-gray-300'
                       }`}
                     >
@@ -165,7 +165,7 @@ export default function ProductDetailPage() {
             <div className="flex flex-col">
               {/* Category */}
               {product.category && (
-                <span className="text-sm text-primary-600 font-medium mb-2">
+                <span className="text-sm text-black font-medium mb-2">
                   {product.category.name}
                 </span>
               )}
@@ -184,7 +184,7 @@ export default function ProductDetailPage() {
                         key={i}
                         className={`w-5 h-5 ${
                           i < Math.round(product.ratings.average)
-                            ? 'text-yellow-400 fill-current'
+                            ? 'text-black fill-current'
                             : 'text-gray-300'
                         }`}
                         fill="currentColor"
@@ -211,7 +211,7 @@ export default function ProductDetailPage() {
                       <span className="text-2xl text-gray-500 line-through">
                         {formatCurrency(product.compareAtPrice!)}
                       </span>
-                      <span className="bg-red-100 text-red-800 text-sm font-semibold px-2 py-1 rounded">
+                      <span className="bg-black text-white text-sm font-semibold px-2 py-1 rounded">
                         Save {Math.round(((product.compareAtPrice! - product.price) / product.compareAtPrice!) * 100)}%
                       </span>
                     </>
@@ -228,13 +228,13 @@ export default function ProductDetailPage() {
               {/* Stock Status */}
               <div className="mb-6">
                 {isOutOfStock ? (
-                  <p className="text-red-600 font-medium">Out of Stock</p>
+                  <p className="text-black font-medium">Out of Stock</p>
                 ) : product.stock < 10 ? (
-                  <p className="text-orange-600 font-medium">
+                  <p className="text-gray-700 font-medium">
                     Only {product.stock} left in stock
                   </p>
                 ) : (
-                  <p className="text-green-600 font-medium">In Stock</p>
+                  <p className="text-black font-medium">In Stock</p>
                 )}
               </div>
 

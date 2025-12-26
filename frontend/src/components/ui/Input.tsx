@@ -33,7 +33,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className="block text-sm font-medium text-gray-700 mb-1.5"
           >
             {label}
-            {props.required && <span className="text-error-500 ml-1">*</span>}
+            {props.required && <span className="text-black ml-1">*</span>}
           </label>
         )}
 
@@ -51,7 +51,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               'input-base w-full',
               leftIcon && 'pl-10',
               rightIcon && 'pr-10',
-              error && 'border-error-500 focus:ring-error-500 focus:border-error-500',
+              error && 'border-black focus:ring-black focus:border-black',
               className
             )}
             {...props}
@@ -65,7 +65,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         </div>
 
         {error && (
-          <p className="mt-1.5 text-sm text-error-600">{error}</p>
+          <p className="mt-1.5 text-sm text-black">{error}</p>
         )}
 
         {helperText && !error && (

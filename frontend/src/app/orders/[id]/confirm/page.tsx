@@ -143,13 +143,13 @@ const PaymentForm: React.FC<{
                   style: {
                     base: {
                       fontSize: '16px',
-                      color: '#424770',
+                      color: '#1f2937',
                       '::placeholder': {
-                        color: '#aab7c4',
+                        color: '#9ca3af',
                       },
                     },
                     invalid: {
-                      color: '#9e2146',
+                      color: '#000000',
                     },
                   },
                 }}
@@ -262,9 +262,9 @@ export default function OrderConfirmationPage() {
         )}
 
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-gray-200 border-2 border-black rounded-full flex items-center justify-center mx-auto mb-4">
             <svg
-              className="w-8 h-8 text-success-600"
+              className="w-8 h-8 text-black"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -313,7 +313,7 @@ export default function OrderConfirmationPage() {
                       <div className="flex-1 min-w-0">
                         <Link
                           href={`/products/${item.product._id}`}
-                          className="font-medium text-gray-900 hover:text-primary-600 transition-colors"
+                          className="font-medium text-gray-900 hover:text-black transition-colors underline"
                         >
                           {item.name}
                         </Link>
@@ -323,10 +323,10 @@ export default function OrderConfirmationPage() {
                         {item.selectedVariants &&
                           item.selectedVariants.length > 0 && (
                             <p className="text-sm text-gray-600">
-                              {item.selectedVariants.map((v, idx) => (
+                              {item.selectedVariants.map((v, idx, arr) => (
                                 <span key={idx}>
                                   {v.variantName}: {v.optionValue}
-                                  {idx < item.selectedVariants.length - 1 && ', '}
+                                  {idx < arr.length - 1 && ', '}
                                 </span>
                               ))}
                             </p>

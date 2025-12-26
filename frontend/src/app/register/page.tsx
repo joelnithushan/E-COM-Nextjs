@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import Section from '@/components/layout/Section';
 import Container from '@/components/layout/Container';
 import Card from '@/components/ui/Card';
@@ -114,10 +115,17 @@ export default function RegisterPage() {
           {/* Logo */}
           <div className="text-center mb-8">
             <Link href="/" className="inline-flex items-center space-x-2 mb-4">
-              <div className="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">S</span>
+              <div className="w-12 h-12 flex items-center justify-center">
+                <Image
+                  src="/logo.svg"
+                  alt="Zyra Logo"
+                  width={48}
+                  height={48}
+                  className="w-full h-full"
+                  priority
+                />
               </div>
-              <span className="text-2xl font-bold text-gray-900">Store</span>
+              <span className="text-2xl font-bold text-gray-900">Zyra</span>
             </Link>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Create an account</h1>
             <p className="text-gray-600">Sign up to get started</p>
@@ -203,7 +211,7 @@ export default function RegisterPage() {
                 Already have an account?{' '}
                 <Link
                   href="/login"
-                  className="text-primary-600 hover:text-primary-700 font-medium"
+                  className="text-black hover:text-gray-800 font-medium underline"
                 >
                   Sign in
                 </Link>
@@ -213,11 +221,11 @@ export default function RegisterPage() {
             <div className="mt-6 pt-6 border-t border-gray-200">
               <p className="text-xs text-gray-500 text-center">
                 By creating an account, you agree to our{' '}
-                <Link href="/terms" className="text-primary-600 hover:text-primary-700">
+                <Link href="/terms" className="text-black hover:text-gray-800 underline">
                   Terms of Service
                 </Link>{' '}
                 and{' '}
-                <Link href="/privacy" className="text-primary-600 hover:text-primary-700">
+                <Link href="/privacy" className="text-black hover:text-gray-800 underline">
                   Privacy Policy
                 </Link>
               </p>

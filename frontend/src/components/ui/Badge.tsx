@@ -15,12 +15,12 @@ const Badge: React.FC<BadgeProps> = ({
   className,
 }) => {
   const variants = {
-    default: 'bg-gray-100 text-gray-800',
-    primary: 'bg-primary-100 text-primary-800',
-    success: 'bg-success-100 text-success-800',
-    error: 'bg-error-100 text-error-800',
-    warning: 'bg-warning-100 text-warning-800',
-    info: 'bg-info-100 text-info-800',
+    default: 'bg-gray-200 text-black border border-gray-400',
+    primary: 'bg-black text-white border border-black',
+    success: 'bg-gray-300 text-black border border-gray-500',
+    error: 'bg-black text-white border border-black',
+    warning: 'bg-gray-400 text-black border border-gray-600',
+    info: 'bg-white text-black border-2 border-black',
   };
 
   const sizes = {

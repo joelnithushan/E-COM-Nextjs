@@ -25,11 +25,10 @@ export async function generateProductMetadata(
 
     return generateSEOMetadata({
       title: product.name,
-      description: product.shortDescription || product.description,
+      description: product.description,
       keywords: [
         product.name,
         product.category?.name || '',
-        ...(product.tags || []),
       ].filter(Boolean),
       image: primaryImage?.url,
       url: `/products/${product._id}`,

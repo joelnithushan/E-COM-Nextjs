@@ -48,17 +48,20 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
     blurDataURL ||
     'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==';
 
-  const imageProps = {
+  const imageProps: any = {
     src,
     alt,
     className: cn('object-cover', className),
     quality,
     loading,
-    placeholder: placeholder === 'blur' ? 'blur' : undefined,
-    blurDataURL: placeholder === 'blur' ? defaultBlurDataURL : undefined,
     sizes,
     priority,
   };
+
+  if (placeholder === 'blur' && blurDataURL) {
+    imageProps.placeholder = 'blur' as const;
+    imageProps.blurDataURL = blurDataURL || defaultBlurDataURL;
+  }
 
   if (fill) {
     return <Image {...imageProps} fill />;

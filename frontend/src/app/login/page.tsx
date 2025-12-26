@@ -69,10 +69,17 @@ export default function LoginPage() {
           {/* Logo */}
           <div className="text-center mb-8">
             <Link href="/" className="inline-flex items-center space-x-2 mb-4">
-              <div className="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">S</span>
+              <div className="w-12 h-12 flex items-center justify-center">
+                <Image
+                  src="/logo.svg"
+                  alt="Zyra Logo"
+                  width={48}
+                  height={48}
+                  className="w-full h-full"
+                  priority
+                />
               </div>
-              <span className="text-2xl font-bold text-gray-900">Store</span>
+              <span className="text-2xl font-bold text-gray-900">Zyra</span>
             </Link>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back</h1>
             <p className="text-gray-600">Sign in to your account to continue</p>
@@ -111,7 +118,7 @@ export default function LoginPage() {
                 <div className="mt-2 text-right">
                   <Link
                     href="/forgot-password"
-                    className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+                    className="text-sm text-black hover:text-gray-800 font-medium underline"
                   >
                     Forgot password?
                   </Link>
@@ -135,7 +142,7 @@ export default function LoginPage() {
                 Don't have an account?{' '}
                 <Link
                   href="/register"
-                  className="text-primary-600 hover:text-primary-700 font-medium"
+                  className="text-black hover:text-gray-800 font-medium underline"
                 >
                   Sign up
                 </Link>
@@ -144,8 +151,8 @@ export default function LoginPage() {
           </Card>
 
           {/* Demo Credentials Info */}
-          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-sm text-blue-800 text-center">
+          <div className="mt-6 p-4 bg-gray-100 border border-gray-400 rounded-lg">
+            <p className="text-sm text-black text-center">
               <strong>Demo:</strong> Use any email and password to test (backend handles validation)
             </p>
           </div>

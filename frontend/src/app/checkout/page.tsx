@@ -38,6 +38,7 @@ interface CheckoutFormData {
     name: string;
     street: string;
     city: string;
+    state: string;
     zipCode: string;
     country: string;
     phone: string;
@@ -72,6 +73,7 @@ const CheckoutForm: React.FC<{
       name: '',
       street: '',
       city: '',
+      state: '',
       zipCode: '',
       country: 'US',
       phone: '',
@@ -235,7 +237,7 @@ const CheckoutForm: React.FC<{
                     useShippingForBilling: e.target.checked,
                   }))
                 }
-                className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                className="rounded border-gray-300 text-black focus:ring-black"
               />
               <span className="text-sm text-gray-700">
                 Same as shipping address
@@ -277,6 +279,14 @@ const CheckoutForm: React.FC<{
                 value={formData.billingAddress.city}
                 onChange={(e) =>
                   handleInputChange('city', e.target.value, 'billingAddress')
+                }
+                required
+              />
+              <Input
+                label="State"
+                value={formData.billingAddress.state}
+                onChange={(e) =>
+                  handleInputChange('state', e.target.value, 'billingAddress')
                 }
                 required
               />

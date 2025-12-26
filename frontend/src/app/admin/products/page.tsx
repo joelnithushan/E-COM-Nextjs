@@ -242,7 +242,7 @@ export default function AdminProductsPage() {
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => handleDelete(product._id)}
-                                className="text-error-600 hover:text-error-700"
+                                className="text-black hover:text-gray-800 underline"
                               >
                                 Delete
                               </Button>

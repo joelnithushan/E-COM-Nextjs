@@ -93,7 +93,7 @@ export default function AdminSidebar() {
         {/* Logo */}
         <div className="flex items-center h-16 flex-shrink-0 px-4 bg-gray-800">
           <Link href="/admin" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
               <span className="text-white font-bold">A</span>
             </div>
             <span className="text-white font-bold text-lg">Admin</span>
@@ -112,7 +112,7 @@ export default function AdminSidebar() {
                   className={cn(
                     'group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors',
                     isActive
-                      ? 'bg-primary-600 text-white'
+                      ? 'bg-black text-white'
                       : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                   )}
                 >

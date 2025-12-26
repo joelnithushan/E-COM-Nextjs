@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Container from './Container';
 import Button from '@/components/ui/Button';
 import UserMenu from './UserMenu';
@@ -21,11 +22,18 @@ const Header: React.FC = () => {
             className="flex items-center space-x-2 group"
             aria-label="Home"
           >
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-primary-600 rounded-lg flex items-center justify-center group-hover:bg-primary-700 transition-colors">
-              <span className="text-white font-bold text-lg md:text-xl">S</span>
+            <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center">
+              <Image
+                src="/logo.svg"
+                alt="Zyra Logo"
+                width={40}
+                height={40}
+                className="w-full h-full"
+                priority
+              />
             </div>
-            <span className="text-xl md:text-2xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors">
-              Store
+            <span className="text-xl md:text-2xl font-bold text-gray-900 group-hover:text-black transition-colors">
+              Zyra
             </span>
           </Link>
 
@@ -33,20 +41,20 @@ const Header: React.FC = () => {
           <nav className="hidden lg:flex items-center space-x-1">
             <Link
               href="/products"
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
+              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-black hover:bg-gray-50 rounded-lg transition-colors"
             >
               Products
             </Link>
             <Link
               href="/categories"
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
+              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-black hover:bg-gray-50 rounded-lg transition-colors"
             >
               Categories
             </Link>
             {isAuthenticated && (
               <Link
                 href="/orders"
-                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
+                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-black hover:bg-gray-50 rounded-lg transition-colors"
               >
                 Orders
               </Link>
@@ -54,14 +62,14 @@ const Header: React.FC = () => {
             {isAdmin && (
               <Link
                 href="/admin"
-                className="px-4 py-2 text-sm font-medium text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                className="px-4 py-2 text-sm font-medium text-black hover:bg-gray-100 rounded-lg transition-colors"
               >
                 Admin
               </Link>
             )}
             <Link
               href="/about"
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
+              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-black hover:bg-gray-50 rounded-lg transition-colors"
             >
               About
             </Link>
@@ -71,7 +79,7 @@ const Header: React.FC = () => {
           <div className="flex items-center space-x-2 md:space-x-4">
             {/* Search Button (Mobile) */}
             <button
-              className="p-2 text-gray-700 hover:text-primary-600 hover:bg-gray-100 rounded-lg transition-colors lg:hidden"
+              className="p-2 text-gray-700 hover:text-black hover:bg-gray-100 rounded-lg transition-colors lg:hidden"
               aria-label="Search"
             >
               <svg
@@ -92,7 +100,7 @@ const Header: React.FC = () => {
             {/* Cart Button */}
             <Link
               href="/cart"
-              className="p-2 text-gray-700 hover:text-primary-600 hover:bg-gray-100 rounded-lg transition-colors relative"
+              className="p-2 text-gray-700 hover:text-black hover:bg-gray-100 rounded-lg transition-colors relative"
               aria-label="Shopping cart"
             >
               <svg
@@ -108,7 +116,7 @@ const Header: React.FC = () => {
                   d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                 />
               </svg>
-              <span className="absolute -top-1 -right-1 bg-primary-600 text-white text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-black text-white text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center">
                 0
               </span>
             </Link>
@@ -122,7 +130,7 @@ const Header: React.FC = () => {
                   Login
                 </Button>
                 <button
-                  className="p-2 text-gray-700 hover:text-primary-600 hover:bg-gray-100 rounded-lg transition-colors sm:hidden"
+                  className="p-2 text-gray-700 hover:text-black hover:bg-gray-100 rounded-lg transition-colors sm:hidden"
                   aria-label="Login"
                 >
                   <svg
@@ -144,7 +152,7 @@ const Header: React.FC = () => {
 
             {/* Mobile Menu Button */}
             <button
-              className="p-2 text-gray-700 hover:text-primary-600 hover:bg-gray-100 rounded-lg transition-colors lg:hidden"
+              className="p-2 text-gray-700 hover:text-black hover:bg-gray-100 rounded-lg transition-colors lg:hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
               aria-expanded={mobileMenuOpen}
@@ -181,14 +189,14 @@ const Header: React.FC = () => {
             <nav className="flex flex-col space-y-2">
               <Link
                 href="/products"
-                className="px-4 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
+                className="px-4 py-2 text-base font-medium text-gray-700 hover:text-black hover:bg-gray-50 rounded-lg transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Products
               </Link>
               <Link
                 href="/categories"
-                className="px-4 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
+                className="px-4 py-2 text-base font-medium text-gray-700 hover:text-black hover:bg-gray-50 rounded-lg transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Categories
@@ -196,7 +204,7 @@ const Header: React.FC = () => {
               {isAuthenticated && (
                 <Link
                   href="/orders"
-                  className="px-4 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
+                  className="px-4 py-2 text-base font-medium text-gray-700 hover:text-black hover:bg-gray-50 rounded-lg transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Orders
@@ -205,7 +213,7 @@ const Header: React.FC = () => {
               {isAdmin && (
                 <Link
                   href="/admin"
-                  className="px-4 py-2 text-base font-medium text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                  className="px-4 py-2 text-base font-medium text-black hover:bg-gray-100 rounded-lg transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Admin Dashboard
@@ -213,7 +221,7 @@ const Header: React.FC = () => {
               )}
               <Link
                 href="/about"
-                className="px-4 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
+                className="px-4 py-2 text-base font-medium text-gray-700 hover:text-black hover:bg-gray-50 rounded-lg transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 About

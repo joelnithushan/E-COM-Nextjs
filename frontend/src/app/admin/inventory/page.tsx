@@ -67,9 +67,9 @@ export default function AdminInventoryPage() {
     variant: 'default' | 'warning' | 'error';
   }) => {
     const variants = {
-      default: 'bg-primary-100 text-primary-600',
-      warning: 'bg-warning-100 text-warning-600',
-      error: 'bg-error-100 text-error-600',
+      default: 'bg-gray-200 text-black border border-gray-400',
+      warning: 'bg-gray-300 text-black border border-gray-500',
+      error: 'bg-black text-white border border-black',
     };
 
     return (

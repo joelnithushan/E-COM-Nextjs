@@ -2,6 +2,10 @@ import apiClient from './client';
 import { Product, ProductsResponse } from './products.api';
 import { Order, OrdersResponse } from './orders.api';
 
+// Re-export types for convenience
+export type { Product } from './products.api';
+export type { Order } from './orders.api';
+
 export interface DashboardStats {
   totalRevenue: number;
   totalOrders: number;

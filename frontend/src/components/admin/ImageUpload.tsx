@@ -173,7 +173,7 @@ export default function ImageUpload({
               ${
                 disabled || uploading
                   ? 'border-gray-300 bg-gray-50 cursor-not-allowed'
-                  : 'border-gray-300 hover:border-primary-400 hover:bg-primary-50 cursor-pointer'
+                  : 'border-gray-300 hover:border-black hover:bg-gray-100 cursor-pointer'
               }
             `}
             onClick={() => !disabled && !uploading && fileInputRef.current?.click()}
@@ -202,7 +202,7 @@ export default function ImageUpload({
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-1.5">
                           <div
-                            className="bg-primary-600 h-1.5 rounded-full transition-all"
+                            className="bg-black h-1.5 rounded-full transition-all"
                             style={{ width: `${progress}%` }}
                           />
                         </div>
@@ -227,7 +227,7 @@ export default function ImageUpload({
                   />
                 </svg>
                 <div className="text-sm text-gray-600">
-                  <span className="font-medium text-primary-600">Click to upload</span> or drag
+                  <span className="font-medium text-black underline">Click to upload</span> or drag
                   and drop
                 </div>
                 <p className="text-xs text-gray-500">
@@ -256,7 +256,7 @@ export default function ImageUpload({
                 {/* Primary Badge */}
                 {image.isPrimary && (
                   <div className="absolute top-2 left-2">
-                    <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-primary-600 text-white">
+                    <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-black text-white">
                       Primary
                     </span>
                   </div>
@@ -286,7 +286,7 @@ export default function ImageUpload({
                       handleRemoveImage(image.publicId);
                     }}
                     disabled={disabled}
-                    className="text-error-600 hover:text-error-700 hover:bg-white/20"
+                    className="text-black hover:text-gray-800 hover:bg-white/20"
                   >
                     Remove
                   </Button>

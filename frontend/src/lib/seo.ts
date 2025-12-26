@@ -24,18 +24,18 @@ export function generateMetadata({
   noindex = false,
   nofollow = false,
 }: SEOProps): Metadata {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourstore.com';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://zyra.lk';
   const defaultImage = `${siteUrl}/og-image.jpg`;
   const fullUrl = url ? `${siteUrl}${url}` : siteUrl;
   const fullImage = image ? (image.startsWith('http') ? image : `${siteUrl}${image}`) : defaultImage;
 
   return {
-    title: `${title} | Store`,
+    title: `${title} | Zyra`,
     description,
     keywords: keywords.length > 0 ? keywords.join(', ') : undefined,
-    authors: [{ name: 'Store' }],
-    creator: 'Store',
-    publisher: 'Store',
+    authors: [{ name: 'Zyra' }],
+    creator: 'Zyra',
+    publisher: 'Zyra',
     robots: {
       index: !noindex,
       follow: !nofollow,
@@ -48,11 +48,11 @@ export function generateMetadata({
       },
     },
     openGraph: {
-      type,
+      type: (type === 'product' ? 'website' : type) as 'website' | 'article',
       url: fullUrl,
       title,
       description,
-      siteName: 'Store',
+      siteName: 'Zyra',
       images: [
         {
           url: fullImage,
@@ -92,7 +92,7 @@ export function generateProductStructuredData(product: {
     count: number;
   };
 }) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourstore.com';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://zyra.lk';
   const productUrl = `${siteUrl}/products/${product.sku || ''}`;
 
   return {
@@ -104,7 +104,7 @@ export function generateProductStructuredData(product: {
     sku: product.sku,
     brand: {
       '@type': 'Brand',
-      name: product.brand || 'Store',
+      name: product.brand || 'Zyra',
     },
     offers: {
       '@type': 'Offer',
@@ -155,7 +155,7 @@ export function generateLegalPageMetadata({
   description: string;
   path: string;
 }) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourstore.com';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://zyra.lk';
   const fullUrl = `${siteUrl}${path}`;
 
   return {
@@ -165,14 +165,14 @@ export function generateLegalPageMetadata({
       canonical: path,
     },
     openGraph: {
-      title: `${title} | Store`,
+      title: `${title} | Zyra`,
       description,
       url: fullUrl,
       type: 'website',
     },
     twitter: {
       card: 'summary',
-      title: `${title} | Store`,
+      title: `${title} | Zyra`,
       description,
     },
     robots: {
@@ -183,12 +183,12 @@ export function generateLegalPageMetadata({
 }
 
 export function generateOrganizationStructuredData() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourstore.com';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://zyra.lk';
 
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Store',
+    name: 'Zyra',
     url: siteUrl,
     logo: `${siteUrl}/logo.png`,
     sameAs: [

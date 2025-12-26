@@ -29,17 +29,17 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const variants = {
       primary:
-        'bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 focus:ring-primary-500 shadow-sm hover:shadow',
+        'bg-black text-white hover:bg-gray-800 active:bg-gray-900 focus:ring-gray-600 shadow-sm hover:shadow-md border border-black',
       secondary:
-        'bg-gray-100 text-gray-900 hover:bg-gray-200 active:bg-gray-300 focus:ring-gray-500',
+        'bg-white text-black border-2 border-black hover:bg-gray-100 active:bg-gray-200 focus:ring-gray-600',
       outline:
-        'border-2 border-primary-600 text-primary-600 hover:bg-primary-50 active:bg-primary-100 focus:ring-primary-500',
+        'border-2 border-black text-black bg-white hover:bg-gray-50 active:bg-gray-100 focus:ring-gray-600',
       ghost:
-        'text-gray-700 hover:bg-gray-100 active:bg-gray-200 focus:ring-gray-500',
+        'text-black hover:bg-gray-100 active:bg-gray-200 focus:ring-gray-600',
       danger:
-        'bg-error-600 text-white hover:bg-error-700 active:bg-error-800 focus:ring-error-500 shadow-sm hover:shadow',
+        'bg-black text-white hover:bg-gray-800 active:bg-gray-900 focus:ring-gray-600 shadow-sm hover:shadow-md border border-black',
       success:
-        'bg-success-600 text-white hover:bg-success-700 active:bg-success-800 focus:ring-success-500 shadow-sm hover:shadow',
+        'bg-gray-800 text-white hover:bg-gray-700 active:bg-black focus:ring-gray-600 shadow-sm hover:shadow-md border border-gray-800',
     };
 
     const sizes = {

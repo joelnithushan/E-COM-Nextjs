@@ -82,7 +82,7 @@ export default function ContactPage() {
                     <h3 className="text-sm font-medium text-gray-700 mb-1">Email</h3>
                     <a
                       href="mailto:support@yourstore.com"
-                      className="text-blue-600 hover:text-blue-700"
+                      className="text-black hover:text-gray-800 underline"
                     >
                       support@yourstore.com
                     </a>
@@ -91,7 +91,7 @@ export default function ContactPage() {
                     <h3 className="text-sm font-medium text-gray-700 mb-1">Phone</h3>
                     <a
                       href="tel:+15551234567"
-                      className="text-blue-600 hover:text-blue-700"
+                      className="text-black hover:text-gray-800 underline"
                     >
                       +1 (555) 123-4567
                     </a>
@@ -119,17 +119,17 @@ export default function ContactPage() {
                 <h3 className="text-sm font-medium text-gray-700 mb-3">Quick Links</h3>
                 <ul className="space-y-2 text-sm">
                   <li>
-                    <a href="/refund" className="text-blue-600 hover:text-blue-700">
+                    <a href="/refund" className="text-black hover:text-gray-800 underline">
                       Refund Policy
                     </a>
                   </li>
                   <li>
-                    <a href="/terms" className="text-blue-600 hover:text-blue-700">
+                    <a href="/terms" className="text-black hover:text-gray-800 underline">
                       Terms & Conditions
                     </a>
                   </li>
                   <li>
-                    <a href="/privacy" className="text-blue-600 hover:text-blue-700">
+                    <a href="/privacy" className="text-black hover:text-gray-800 underline">
                       Privacy Policy
                     </a>
                   </li>
@@ -158,7 +158,7 @@ export default function ContactPage() {
                       htmlFor="name"
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
-                      Name <span className="text-red-500">*</span>
+                      Name <span className="text-black">*</span>
                     </label>
                     <Input
                       type="text"
@@ -175,7 +175,7 @@ export default function ContactPage() {
                       htmlFor="email"
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
-                      Email <span className="text-red-500">*</span>
+                      Email <span className="text-black">*</span>
                     </label>
                     <Input
                       type="email"
@@ -211,7 +211,7 @@ export default function ContactPage() {
                       htmlFor="subject"
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
-                      Subject <span className="text-red-500">*</span>
+                      Subject <span className="text-black">*</span>
                     </label>
                     <select
                       id="subject"
@@ -219,7 +219,7 @@ export default function ContactPage() {
                       value={formData.subject}
                       onChange={handleInputChange}
                       required
-                      className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-base text-gray-900 placeholder:text-gray-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:outline-none transition-colors"
+                      className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-base text-gray-900 placeholder:text-gray-500 focus:border-black focus:ring-2 focus:ring-black focus:outline-none transition-colors"
                     >
                       <option value="">Select a subject</option>
                       <option value="order">Order Inquiry</option>
@@ -237,7 +237,7 @@ export default function ContactPage() {
                     htmlFor="message"
                     className="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Message <span className="text-red-500">*</span>
+                    Message <span className="text-black">*</span>
                   </label>
                   <textarea
                     id="message"
@@ -246,7 +246,7 @@ export default function ContactPage() {
                     onChange={handleInputChange}
                     required
                     rows={6}
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-base text-gray-900 placeholder:text-gray-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:outline-none transition-colors resize-none"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-base text-gray-900 placeholder:text-gray-500 focus:border-black focus:ring-2 focus:ring-black focus:outline-none transition-colors resize-none"
                     placeholder="Please provide details about your inquiry..."
                   />
                 </div>

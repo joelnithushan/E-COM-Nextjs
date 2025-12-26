@@ -16,16 +16,16 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://yourstore.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://zyra.lk'),
   title: {
-    default: 'Store - Your Trusted E-Commerce Destination',
-    template: '%s | Store',
+    default: 'Zyra - Premium Imported Shoes in Sri Lanka',
+    template: '%s | Zyra',
   },
-  description: 'Discover quality products at great prices. Your trusted e-commerce destination.',
-  keywords: ['ecommerce', 'online shopping', 'products'],
-  authors: [{ name: 'Store' }],
-  creator: 'Store',
-  publisher: 'Store',
+  description: 'Shop premium imported shoes in Sri Lanka. Discover quality footwear from top international brands at Zyra.',
+  keywords: ['shoes', 'footwear', 'imported shoes', 'Sri Lanka', 'sneakers', 'boots', 'sports shoes', 'online shoes'],
+  authors: [{ name: 'Zyra' }],
+  creator: 'Zyra',
+  publisher: 'Zyra',
   robots: {
     index: true,
     follow: true,
@@ -40,14 +40,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    siteName: 'Store',
-    title: 'Store - Your Trusted E-Commerce Destination',
-    description: 'Discover quality products at great prices.',
+    siteName: 'Zyra',
+    title: 'Zyra - Premium Imported Shoes in Sri Lanka',
+    description: 'Shop premium imported shoes in Sri Lanka. Discover quality footwear from top international brands.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Store - Your Trusted E-Commerce Destination',
-    description: 'Discover quality products at great prices.',
+    title: 'Zyra - Premium Imported Shoes in Sri Lanka',
+    description: 'Shop premium imported shoes in Sri Lanka. Discover quality footwear from top international brands.',
   },
   alternates: {
     canonical: '/',
@@ -73,16 +73,16 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         
         {/* PWA Meta Tags */}
-        <meta name="application-name" content="Store" />
+        <meta name="application-name" content="Zyra" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Store" />
-        <meta name="description" content="Your trusted e-commerce destination" />
+        <meta name="apple-mobile-web-app-title" content="Zyra" />
+        <meta name="description" content="Premium imported shoes in Sri Lanka - Zyra" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="msapplication-TileColor" content="#3b82f6" />
+        <meta name="msapplication-TileColor" content="#000000" />
         <meta name="msapplication-tap-highlight" content="no" />
-        <meta name="theme-color" content="#3b82f6" />
+        <meta name="theme-color" content="#000000" />
         
         {/* Apple Touch Icons */}
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />

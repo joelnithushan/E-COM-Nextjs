@@ -339,7 +339,7 @@ export default function NewProductPage() {
                       id="featured"
                       checked={formData.featured}
                       onChange={handleInputChange}
-                      className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                      className="h-4 w-4 text-black focus:ring-black border-gray-300 rounded"
                     />
                     <label htmlFor="featured" className="ml-2 block text-sm text-gray-700">
                       Featured Product

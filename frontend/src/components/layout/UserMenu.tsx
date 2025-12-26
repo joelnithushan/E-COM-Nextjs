@@ -56,7 +56,7 @@ export default function UserMenu() {
             />
           </div>
         ) : (
-          <div className="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center">
             <span className="text-white text-sm font-semibold">
               {user.name.charAt(0).toUpperCase()}
             </span>
@@ -89,7 +89,7 @@ export default function UserMenu() {
             <p className="text-sm font-semibold text-gray-900">{user.name}</p>
             <p className="text-xs text-gray-500 truncate">{user.email}</p>
             {isAdmin && (
-              <span className="inline-block mt-1 px-2 py-0.5 text-xs font-medium bg-primary-100 text-primary-800 rounded">
+              <span className="inline-block mt-1 px-2 py-0.5 text-xs font-medium bg-gray-200 text-black rounded border border-gray-400">
                 Admin
               </span>
             )}

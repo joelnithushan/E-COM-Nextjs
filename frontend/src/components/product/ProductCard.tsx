@@ -62,12 +62,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
           {hasDiscount && (
-            <span className="bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">
+            <span className="bg-black text-white text-xs font-semibold px-2 py-1 rounded">
               -{discountPercentage}%
             </span>
           )}
           {product.featured && (
-            <span className="bg-primary-600 text-white text-xs font-semibold px-2 py-1 rounded">
+            <span className="bg-gray-800 text-white text-xs font-semibold px-2 py-1 rounded">
               Featured
             </span>
           )}
@@ -98,7 +98,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
         )}
 
         {/* Title */}
-        <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
+        <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-black transition-colors">
           {product.name}
         </h3>
 
@@ -112,7 +112,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
                   className={cn(
                     'w-4 h-4',
                     i < Math.round(product.ratings.average)
-                      ? 'text-yellow-400 fill-current'
+                      ? 'text-black fill-current'
                       : 'text-gray-300'
                   )}
                   fill="currentColor"
@@ -142,7 +142,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
 
         {/* Stock Indicator */}
         {!isOutOfStock && product.stock < 10 && (
-          <p className="text-xs text-orange-600 mt-1">
+          <p className="text-xs text-gray-700 mt-1">
             Only {product.stock} left in stock
           </p>
         )}

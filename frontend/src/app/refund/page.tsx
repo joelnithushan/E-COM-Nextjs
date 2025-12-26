@@ -56,7 +56,7 @@ export default function RefundPolicyPage() {
               <li>Submit your return request</li>
             </ol>
             <p className="text-gray-700 mb-4">
-              Alternatively, you can contact our customer service team at <a href="mailto:returns@yourstore.com" className="text-blue-600 hover:underline">returns@yourstore.com</a> or call us at +1 (555) 123-4567.
+              Alternatively, you can contact our customer service team at <a href="mailto:returns@yourstore.com" className="text-black hover:underline">returns@yourstore.com</a> or call us at +1 (555) 123-4567.
             </p>
 
             <h3 className="text-xl font-semibold text-gray-900 mt-6 mb-3">3.2 Return Authorization</h3>
@@ -152,7 +152,7 @@ export default function RefundPolicyPage() {
             </p>
             <div className="bg-gray-50 p-6 rounded-lg mt-4">
               <p className="text-gray-700 mb-2">
-                <strong>Email:</strong> <a href="mailto:returns@yourstore.com" className="text-blue-600 hover:underline">returns@yourstore.com</a>
+                <strong>Email:</strong> <a href="mailto:returns@yourstore.com" className="text-black hover:underline">returns@yourstore.com</a>
               </p>
               <p className="text-gray-700 mb-2">
                 <strong>Phone:</strong> +1 (555) 123-4567
@@ -167,10 +167,10 @@ export default function RefundPolicyPage() {
           </section>
 
           <section className="mb-8">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mt-8">
-              <h3 className="text-lg font-semibold text-blue-900 mb-2">Need Help?</h3>
-              <p className="text-blue-800 mb-4">
-                Our customer service team is here to help. Visit our <Link href="/contact" className="text-blue-600 hover:underline font-medium">Contact page</Link> for more ways to reach us.
+            <div className="bg-gray-100 border border-gray-400 rounded-lg p-6 mt-8">
+              <h3 className="text-lg font-semibold text-black mb-2">Need Help?</h3>
+              <p className="text-black mb-4">
+                Our customer service team is here to help. Visit our <Link href="/contact" className="text-black hover:underline font-medium">Contact page</Link> for more ways to reach us.
               </p>
             </div>
           </section>
