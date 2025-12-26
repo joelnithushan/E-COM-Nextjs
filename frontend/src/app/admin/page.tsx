@@ -11,6 +11,7 @@ import { getDashboardStats, DashboardStats } from '@/lib/api/admin.api';
 import { formatCurrency } from '@/lib/utils';
 import { Order } from '@/lib/api/orders.api';
 import { Product } from '@/lib/api/products.api';
+import { AnalyticsDashboard } from '@/components/admin/AnalyticsDashboard';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -200,6 +201,11 @@ export default function AdminDashboard() {
               </svg>
             }
           />
+        </div>
+
+        {/* Analytics Dashboard */}
+        <div className="mb-8">
+          <AnalyticsDashboard />
         </div>
 
         {/* Recent Orders & Low Stock */}

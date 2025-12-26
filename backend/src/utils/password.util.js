@@ -104,3 +104,5 @@ export const needsRehash = (hash, currentSaltRounds = 12) => {
   return rounds < currentSaltRounds;
 };
 
+
+

@@ -86,18 +86,30 @@ export const sanitizeEmail = (field = 'email', optional = false) => {
 export const sanitizePassword = (field = 'password', options = {}) => {
   const { min = 8, max = 128, requireUppercase = true, requireLowercase = true, requireNumbers = true } = options;
 
-  return body(field)
+  let validator = body(field)
     .trim()
     .isLength({ min, max })
-    .withMessage(`Password must be between ${min} and ${max} characters`)
-    .matches(requireUppercase ? /[A-Z]/)
-    .withMessage('Password must contain at least one uppercase letter')
-    .matches(requireLowercase ? /[a-z]/)
-    .withMessage('Password must contain at least one lowercase letter')
-    .matches(requireNumbers ? /\d/)
-    .withMessage('Password must contain at least one number')
-    .matches(/[!@#$%^&*(),.?":{}|<>]/)
+    .withMessage(`Password must be between ${min} and ${max} characters`);
+
+  if (requireUppercase) {
+    validator = validator.matches(/[A-Z]/)
+      .withMessage('Password must contain at least one uppercase letter');
+  }
+
+  if (requireLowercase) {
+    validator = validator.matches(/[a-z]/)
+      .withMessage('Password must contain at least one lowercase letter');
+  }
+
+  if (requireNumbers) {
+    validator = validator.matches(/\d/)
+      .withMessage('Password must contain at least one number');
+  }
+
+  validator = validator.matches(/[!@#$%^&*(),.?":{}|<>]/)
     .withMessage('Password must contain at least one special character');
+
+  return validator;
 };
 
 /**
@@ -206,4 +218,5 @@ export const sanitizeError = (error, isProduction = false) => {
     stack: error.stack,
   };
 };
+
 

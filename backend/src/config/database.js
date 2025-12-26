@@ -8,7 +8,6 @@ const connectDB = async () => {
       ...config.database.options,
       // Performance optimizations
       bufferCommands: false, // Disable mongoose buffering
-      bufferMaxEntries: 0, // Disable mongoose buffering
     });
 
     logger.info(`MongoDB Connected: ${conn.connection.host}`);

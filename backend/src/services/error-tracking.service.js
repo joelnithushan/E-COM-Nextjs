@@ -4,13 +4,37 @@
  */
 
 import * as Sentry from '@sentry/node';
-import { ProfilingIntegration } from '@sentry/profiling-node';
 import logger from '../config/logging.config.js';
+
+// Profiling integration is optional (requires native compilation)
+// We'll load it dynamically if available
+let ProfilingIntegration = null;
+
+// Function to load profiling integration if available
+async function loadProfilingIntegration() {
+  if (ProfilingIntegration !== null && ProfilingIntegration !== false) {
+    return ProfilingIntegration; // Already loaded
+  }
+  
+  if (ProfilingIntegration === false) {
+    return null; // Already tried and failed
+  }
+  
+  try {
+    const profilingModule = await import('@sentry/profiling-node');
+    ProfilingIntegration = profilingModule.ProfilingIntegration;
+    return ProfilingIntegration;
+  } catch (error) {
+    // Profiling not available (common in local dev without build tools)
+    ProfilingIntegration = false; // Mark as unavailable
+    return null;
+  }
+}
 
 /**
  * Initialize Sentry error tracking
  */
-export const initializeSentry = () => {
+export const initializeSentry = async () => {
   const dsn = process.env.SENTRY_DSN;
   const environment = process.env.NODE_ENV || 'development';
   const release = process.env.APP_VERSION || '1.0.0';
@@ -22,6 +46,14 @@ export const initializeSentry = () => {
   }
 
   try {
+    // Try to load profiling integration
+    const profiling = await loadProfilingIntegration();
+    const integrations = [];
+    
+    if (profiling) {
+      integrations.push(new profiling());
+    }
+
     Sentry.init({
       dsn,
       environment,
@@ -31,10 +63,8 @@ export const initializeSentry = () => {
       tracesSampleRate: environment === 'production' ? 0.1 : 1.0, // 10% in prod, 100% in staging
       
       // Profiling (optional, requires @sentry/profiling-node)
-      profilesSampleRate: environment === 'production' ? 0.1 : 1.0,
-      integrations: [
-        new ProfilingIntegration(),
-      ],
+      profilesSampleRate: profiling ? (environment === 'production' ? 0.1 : 1.0) : 0,
+      integrations,
       
       // Filter out health check endpoints
       ignoreErrors: [
@@ -220,4 +250,5 @@ export default {
   clearUserContext,
   addBreadcrumb,
 };
+
 

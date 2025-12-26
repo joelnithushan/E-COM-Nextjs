@@ -1,0 +1,22 @@
+# ============================================
+# Docker Compose Override Example
+# Copy to docker-compose.override.yml for local customizations
+# This file is automatically loaded by docker-compose
+# ============================================
+
+version: '3.8'
+
+services:
+  backend:
+    # Override environment variables
+    environment:
+      LOG_LEVEL: debug
+      NODE_ENV: development
+
+  frontend:
+    # Override environment variables
+    environment:
+      NODE_ENV: development
+
+
+

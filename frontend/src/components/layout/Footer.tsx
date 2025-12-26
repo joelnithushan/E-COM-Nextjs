@@ -64,34 +64,34 @@ const Footer: React.FC = () => {
               <ul className="space-y-3">
                 <li>
                   <Link
-                    href="/about"
-                    className="text-sm text-gray-400 hover:text-white transition-colors"
-                  >
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link
                     href="/contact"
                     className="text-sm text-gray-400 hover:text-white transition-colors"
                   >
-                    Contact
+                    Contact Us
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/shipping"
+                    href="/refund"
                     className="text-sm text-gray-400 hover:text-white transition-colors"
                   >
-                    Shipping Info
+                    Refund Policy
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/returns"
+                    href="/privacy"
                     className="text-sm text-gray-400 hover:text-white transition-colors"
                   >
-                    Returns
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/terms"
+                    className="text-sm text-gray-400 hover:text-white transition-colors"
+                  >
+                    Terms & Conditions
                   </Link>
                 </li>
               </ul>
@@ -143,7 +143,7 @@ const Footer: React.FC = () => {
               <p className="text-sm text-gray-400">
                 &copy; {currentYear} Store. All rights reserved.
               </p>
-              <div className="flex space-x-6">
+              <div className="flex flex-wrap gap-4 justify-center sm:justify-end">
                 <Link
                   href="/privacy"
                   className="text-sm text-gray-400 hover:text-white transition-colors"
@@ -154,7 +154,13 @@ const Footer: React.FC = () => {
                   href="/terms"
                   className="text-sm text-gray-400 hover:text-white transition-colors"
                 >
-                  Terms of Service
+                  Terms & Conditions
+                </Link>
+                <Link
+                  href="/refund"
+                  className="text-sm text-gray-400 hover:text-white transition-colors"
+                >
+                  Refund Policy
                 </Link>
               </div>
             </div>

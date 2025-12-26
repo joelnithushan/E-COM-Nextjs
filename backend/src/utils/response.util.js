@@ -45,4 +45,18 @@ export const sendError = (res, message, statusCode = HTTP_STATUS.INTERNAL_SERVER
   return res.status(statusCode).json(response);
 };
 
+// Aliases for backward compatibility
+export const sendSuccessResponse = (res, data = null, statusCode = HTTP_STATUS.OK, message = null) => {
+  return sendSuccess(res, data, message, statusCode);
+};
+
+export const sendErrorResponse = (res, statusCode = HTTP_STATUS.INTERNAL_SERVER_ERROR, message = 'An error occurred', errorCode = null, details = null) => {
+  const errorDetails = details || {};
+  if (errorCode) {
+    errorDetails.code = errorCode;
+  }
+  return sendError(res, message, statusCode, Object.keys(errorDetails).length > 0 ? errorDetails : null);
+};
+
+
 

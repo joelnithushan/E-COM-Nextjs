@@ -14,7 +14,10 @@ import config from './config/index.js';
 const app = express();
 
 // Initialize error tracking (Sentry) - Must be first
-errorTrackingService.initializeSentry();
+// Note: This is async but we don't await it - it will initialize in the background
+errorTrackingService.initializeSentry().catch(err => {
+  logger.warn('Sentry initialization failed (non-critical)', { error: err.message });
+});
 
 // Initialize error handlers (unhandled rejections, uncaught exceptions)
 initializeErrorHandlers();

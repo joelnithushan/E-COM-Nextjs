@@ -1,6 +1,6 @@
 import app from './src/app.js';
 import connectDB from './src/config/database.js';
-import { logger } from './src/utils/logger.util.js';
+import logger from './src/config/logging.config.js';
 import config from './src/config/index.js';
 
 // Connect to database

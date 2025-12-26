@@ -18,7 +18,8 @@ const envFiles = [
 ];
 
 envFiles.forEach((file) => {
-  dotenv.config({ path: path.resolve(__dirname, '../../../', file) });
+  const envPath = path.resolve(__dirname, '../../', file);
+  dotenv.config({ path: envPath });
 });
 
 // Validate required environment variables
@@ -196,4 +197,5 @@ export const {
   security,
   upload,
 } = config;
+
 

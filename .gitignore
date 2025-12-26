@@ -8,7 +8,7 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
-# Environment variables - NEVER COMMIT THESE
+# Environment variables - NEVER COMMIT THESE - CRITICAL FOR SECURITY
 .env
 .env.*
 .env.local
@@ -21,6 +21,18 @@ pnpm-lock.yaml
 .env.test.local
 !.env.example
 !.env*.example
+
+# Backend environment files
+backend/.env
+backend/.env.*
+backend/.env.local
+
+# Frontend environment files
+frontend/.env
+frontend/.env.*
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.production.local
 
 # Build outputs
 dist/
@@ -58,5 +70,12 @@ coverage/
 .cache/
 .temp/
 tmp/
+
+# Security - Never commit these
+*.pem
+*.key
+*.cert
+secrets/
+.secrets/
 
 

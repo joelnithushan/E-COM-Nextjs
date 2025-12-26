@@ -22,17 +22,4 @@ export const generateTokenPayload = (user) => {
   };
 };
 
-/**
- * Generate token payload from user object
- * @param {Object} user - User object
- * @returns {Object} Token payload
- */
-export const generateTokenPayload = (user) => {
-  return {
-    id: user._id.toString(),
-    email: user.email,
-    role: user.role,
-  };
-};
-
 

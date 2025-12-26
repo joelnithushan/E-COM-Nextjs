@@ -1,6 +1,6 @@
 import featureToggleService from '../services/feature-toggle.service.js';
 import { sendSuccessResponse, sendErrorResponse } from '../utils/response.util.js';
-import { logger } from '../utils/logger.util.js';
+import logger from '../config/logging.config.js';
 
 /**
  * Feature Toggle Controller
@@ -298,4 +298,5 @@ class FeatureToggleController {
 }
 
 export default new FeatureToggleController();
+
 

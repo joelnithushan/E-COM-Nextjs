@@ -1,22 +1,12 @@
 /**
  * Simple logger utility
- * In production, consider using Winston or Pino
+ * Re-export from logging.config.js for backward compatibility
  */
 
-const isDevelopment = process.env.NODE_ENV === 'development';
+import logger from '../config/logging.config.js';
 
-export const logger = {
-  info: (message, ...args) => {
-    if (isDevelopment) {
-      console.log(`[INFO] ${message}`, ...args);
-    }
-  },
-  error: (message, ...args) => {
-    console.error(`[ERROR] ${message}`, ...args);
-  },
-  warn: (message, ...args) => {
-    console.warn(`[WARN] ${message}`, ...args);
-  },
-};
+export { logger };
+export default logger;
+
 
 

@@ -6,39 +6,33 @@
  */
 
 /**
- * Payment Intent Creation Result
+ * @typedef {Object} PaymentIntentResult
+ * @property {string} id - Payment intent/transaction ID
+ * @property {string} [clientSecret] - For client-side confirmation (Stripe)
+ * @property {string} status - Payment status
+ * @property {number} amount - Amount in smallest currency unit
+ * @property {string} currency - Currency code (e.g., 'usd')
+ * @property {Record<string, string>} [metadata] - Additional metadata
  */
-export interface PaymentIntentResult {
-  id: string; // Payment intent/transaction ID
-  clientSecret?: string; // For client-side confirmation (Stripe)
-  status: string;
-  amount: number;
-  currency: string;
-  metadata?: Record<string, string>;
-}
 
 /**
- * Payment Verification Result
+ * @typedef {Object} PaymentVerificationResult
+ * @property {boolean} success - Whether payment was successful
+ * @property {string} status - Payment status
+ * @property {string} transactionId - Transaction ID
+ * @property {number} amount - Amount paid
+ * @property {string} currency - Currency code
+ * @property {Date} [paidAt] - Payment timestamp
+ * @property {string} [failureReason] - Reason for failure if unsuccessful
  */
-export interface PaymentVerificationResult {
-  success: boolean;
-  status: string;
-  transactionId: string;
-  amount: number;
-  currency: string;
-  paidAt?: Date;
-  failureReason?: string;
-}
 
 /**
- * Refund Result
+ * @typedef {Object} RefundResult
+ * @property {boolean} success - Whether refund was successful
+ * @property {string} refundId - Refund transaction ID
+ * @property {number} amount - Refunded amount
+ * @property {string} status - Refund status
  */
-export interface RefundResult {
-  success: boolean;
-  refundId: string;
-  amount: number;
-  status: string;
-}
 
 /**
  * Abstract Payment Gateway Class
@@ -95,5 +89,6 @@ export class PaymentGateway {
     throw new Error('getPaymentStatus must be implemented by subclass');
   }
 }
+
 
 

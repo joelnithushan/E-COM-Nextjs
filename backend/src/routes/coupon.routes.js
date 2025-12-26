@@ -16,7 +16,6 @@ const router = express.Router();
 router.post(
   '/validate',
   optionalFeature(FEATURE_FLAGS.COUPONS),
-  validate(validateCouponSchema),
   couponController.validateCoupon
 );
 
@@ -27,7 +26,6 @@ router.use(adminOnly);
 // Get all coupons
 router.get(
   '/',
-  validate(couponQuerySchema, 'query'),
   couponController.getAllCoupons
 );
 
@@ -40,14 +38,12 @@ router.get('/:id', couponController.getCouponById);
 // Create coupon
 router.post(
   '/',
-  validate(createCouponSchema),
   couponController.createCoupon
 );
 
 // Update coupon
 router.put(
   '/:id',
-  validate(updateCouponSchema),
   couponController.updateCoupon
 );
 

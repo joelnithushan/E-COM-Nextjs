@@ -1,126 +1,48 @@
 # E-Commerce Platform
 
-A production-ready single-vendor e-commerce platform built with Next.js, Express, MongoDB, and Stripe.
-
-## 🚀 Quick Deploy
-
-See [QUICK_START.md](./QUICK_START.md) for a 5-minute deployment guide.
-
-## 📚 Documentation
-
-- [DEPLOYMENT.md](./DEPLOYMENT.md) - Complete deployment guide
-- [DEPLOYMENT_CHECKLIST.md](./DEPLOYMENT_CHECKLIST.md) - Deployment checklist
-- [SECURITY.md](./SECURITY.md) - Security best practices
-- [CLOUDINARY_INTEGRATION.md](./CLOUDINARY_INTEGRATION.md) - Image upload integration
-- [QUICK_START.md](./QUICK_START.md) - Quick start guide
-
-## 🏗️ Architecture
-
-- **Frontend:** Next.js 14 (App Router), React, Tailwind CSS
-- **Backend:** Node.js, Express, MongoDB (Mongoose)
-- **Authentication:** JWT (access + refresh tokens)
-- **Payments:** Stripe
-- **Image Storage:** Cloudinary
-- **Hosting:** Vercel (frontend), Render (backend)
-
-## ✨ Features
-
-- User authentication (register, login, JWT)
-- Product catalog with categories
-- Shopping cart
-- Checkout with Stripe payments
-- Order management
-- Admin dashboard
-- Image uploads (Cloudinary)
-- Responsive design
-- SEO-friendly
-
-## 🔧 Development
-
-### Prerequisites
-
-- Node.js 20+
-- MongoDB (local or Atlas)
-- Stripe account
-- Cloudinary account
-
-### Setup
-
-1. Clone repository
-2. Install dependencies:
-   ```bash
-   cd backend && npm install
-   cd ../frontend && npm install
-   ```
-
-3. Configure environment variables:
-   - Backend: Copy `backend/env.example` to `backend/.env`
-   - Frontend: Copy `frontend/env.example` to `frontend/.env.local`
-
-4. Start development servers:
-   ```bash
-   # Backend
-   cd backend && npm run dev
-   
-   # Frontend
-   cd frontend && npm run dev
-   ```
-
-## 📦 Production Deployment
-
-### Backend (Render)
-
-1. Connect GitHub repository
-2. Set root directory to `backend`
-3. Configure environment variables (see `backend/env.example`)
-4. Deploy
-
-### Frontend (Vercel)
-
-1. Import GitHub repository
-2. Set root directory to `frontend`
-3. Configure environment variables (see `frontend/env.example`)
-4. Deploy
-
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions.
-
-## 🔒 Security
-
-- JWT-based authentication
-- Secure password hashing (bcrypt)
-- Rate limiting
-- CORS protection
-- Security headers (Helmet)
-- Input validation
-- Secure cookie configuration
-
-See [SECURITY.md](./SECURITY.md) for complete security documentation.
-
-## 📝 License
-
-ISC
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## 📧 Support
-
-For issues and questions, please open an issue on GitHub.
-
-Single-vendor e-commerce platform built with Next.js and Express.js.
-
 ## Tech Stack
 
-- Frontend: Next.js 14+ (App Router), React, Tailwind CSS
-- Backend: Node.js + Express.js
-- Database: MongoDB (Mongoose)
-- Payments: Stripe
-- Images: Cloudinary
+### Frontend
+- **Next.js 14+** (App Router)
+- **React 18**
+- **TypeScript**
+- **Tailwind CSS**
+- **Axios**
 
-## Getting Started
+### Backend
+- **Node.js**
+- **Express.js**
+- **MongoDB** (Mongoose)
+- **JWT** (jsonwebtoken)
+- **bcryptjs**
 
-Coming soon...
+### Authentication
+- **JWT** (access + refresh tokens)
+- **bcryptjs** (password hashing)
+
+### Payments
+- **Stripe**
+
+### Image Storage
+- **Cloudinary**
+
+### Database
+- **MongoDB** (Mongoose ODM)
+
+### Hosting & Deployment
+- **Vercel** (Frontend)
+- **Render/Railway** (Backend)
+- **MongoDB Atlas** (Database)
+
+### Additional Technologies
+- **Winston** (Logging)
+- **Sentry** (Error Tracking)
+- **Helmet** (Security Headers)
+- **express-rate-limit** (Rate Limiting)
+- **express-validator** (Input Validation)
+- **express-mongo-sanitize** (NoSQL Injection Prevention)
+- **cookie-parser** (Cookie Handling)
+- **cors** (Cross-Origin Resource Sharing)
+- **dotenv** (Environment Variables)
+- **Redis** (Optional Caching)
+- **Docker** (Containerization)

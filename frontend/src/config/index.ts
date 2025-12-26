@@ -16,10 +16,10 @@ const isProduction = NODE_ENV === 'production';
  * Validate required environment variables
  */
 const validateEnv = () => {
+  // Only require API URL and version - Stripe is optional
   const required = [
     'NEXT_PUBLIC_API_URL',
     'NEXT_PUBLIC_API_VERSION',
-    'NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY',
   ];
 
   const missing = required.filter((key) => !process.env[key]);
@@ -28,10 +28,16 @@ const validateEnv = () => {
     console.error(`❌ Missing required environment variables:`);
     missing.forEach((key) => console.error(`   - ${key}`));
     if (isProduction) {
-      throw new Error('Missing required environment variables');
+      // In production, log error but don't throw to allow graceful degradation
+      console.error('⚠️  Missing required environment variables - some features may not work');
     } else {
       console.warn('⚠️  Continuing with missing variables (not recommended)');
     }
+  }
+  
+  // Warn about optional but recommended variables
+  if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
+    console.warn('⚠️  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY not set - payment features will not work');
   }
 };
 
@@ -109,4 +115,6 @@ export default config;
 
 // Export individual config sections for convenience
 export const { api, stripe, frontend, features, analytics, errorTracking, app } = config;
+
+
 

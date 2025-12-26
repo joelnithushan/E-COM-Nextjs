@@ -135,3 +135,5 @@ export const sanitizeSearch = (search) => {
     .substring(0, 100); // Limit length
 };
 
+
+
