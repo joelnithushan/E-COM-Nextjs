@@ -49,9 +49,9 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Hero Banner Section */}
-      <Section padding="none" className="relative">
-        <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden">
+      {/* Hero Banner Section - Full Screen */}
+      <section className="relative w-full">
+        <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px] overflow-hidden">
           <Image
             src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1920&q=80"
             alt="Premium Shoes Collection - Zyra"
@@ -61,7 +61,7 @@ export default async function HomePage() {
             sizes="100vw"
           />
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <div className="text-center px-4 max-w-3xl">
+            <div className="text-center px-4 max-w-3xl mx-auto">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
                 Welcome to Zyra
               </h1>
@@ -83,7 +83,7 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* Categories Section */}
       {categories.length > 0 && (
