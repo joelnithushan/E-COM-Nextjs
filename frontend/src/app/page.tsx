@@ -49,26 +49,38 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Hero Section */}
-      <Section padding="xl" background="primary" className="text-center">
-        <div className="max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-            Welcome to Zyra
-          </h1>
-          <p className="text-xl md:text-2xl text-white mb-8">
-            Premium Imported Shoes in Sri Lanka
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/products">
-              <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                Shop Now
-              </Button>
-            </Link>
-            <Link href="/products?featured=true">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto bg-white/10 border-white text-white hover:bg-white/20">
-                Featured Products
-              </Button>
-            </Link>
+      {/* Hero Banner Section */}
+      <Section padding="none" className="relative">
+        <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden">
+          <Image
+            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1920&q=80"
+            alt="Premium Shoes Collection - Zyra"
+            fill
+            priority
+            className="object-cover grayscale"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+            <div className="text-center px-4 max-w-3xl">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+                Welcome to Zyra
+              </h1>
+              <p className="text-xl md:text-2xl text-white mb-8">
+                Premium Imported Shoes in Sri Lanka
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href="/products">
+                  <Button variant="secondary" size="lg" className="w-full sm:w-auto">
+                    Shop Now
+                  </Button>
+                </Link>
+                <Link href="/products?featured=true">
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto bg-white/10 border-white text-white hover:bg-white/20">
+                    Featured Products
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </Section>
