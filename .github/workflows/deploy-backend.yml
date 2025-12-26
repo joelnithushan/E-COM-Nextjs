@@ -16,9 +16,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
 
     steps:
       - name: Checkout code
@@ -32,9 +29,11 @@ jobs:
           cache-dependency-path: 'backend/package-lock.json'
 
       - name: Install dependencies
+        working-directory: ./backend
         run: npm ci
 
       - name: Run tests (if available)
+        working-directory: ./backend
         run: |
           if [ -f "tests" ] || [ -d "tests" ] || [ -f "test" ] || [ -d "test" ]; then
             NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js || true
@@ -44,6 +43,7 @@ jobs:
         continue-on-error: true
 
       - name: Check for security vulnerabilities
+        working-directory: ./backend
         run: npm audit --audit-level=moderate
         continue-on-error: true
 
