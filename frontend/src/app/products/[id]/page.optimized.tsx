@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, lazy, Suspense } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { getProduct, Product } from '@/lib/api/products.api';
 import { formatCurrency } from '@/lib/utils';
 import Alert from '@/components/ui/Alert';
@@ -11,7 +11,7 @@ import Section from '@/components/layout/Section';
 import Container from '@/components/layout/Container';
 import OptimizedImage from '@/components/ui/OptimizedImage';
 import { addToCart } from '@/lib/api/cart.api';
-import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 import ProductDetailSkeleton from '@/components/product/ProductDetailSkeleton';
 import { generateProductStructuredData } from '@/lib/seo';
 
@@ -21,11 +21,12 @@ const Badge = lazy(() => import('@/components/ui/Badge'));
 export default function ProductDetailPage() {
   const params = useParams();
   const productId = params.id as string;
+  const router = useRouter();
+  const { isAuthenticated } = useAuth();
   
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
@@ -62,6 +63,14 @@ export default function ProductDetailPage() {
   const handleAddToCart = async () => {
     if (!product) return;
 
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      // Save the current URL to redirect back after login
+      const returnUrl = `/products/${productId}`;
+      router.push(`/login?returnUrl=${encodeURIComponent(returnUrl)}`);
+      return;
+    }
+
     setIsAddingToCart(true);
     setAddToCartError(null);
 
@@ -73,11 +82,20 @@ export default function ProductDetailPage() {
       });
       router.push('/cart');
     } catch (err: any) {
-      setAddToCartError(
-        err.response?.data?.error?.message ||
-          err.message ||
-          'Failed to add item to cart'
-      );
+      // Handle authentication errors
+      if (err.response?.status === 401) {
+        setAddToCartError('Please login to add items to cart');
+        const returnUrl = `/products/${productId}`;
+        setTimeout(() => {
+          router.push(`/login?returnUrl=${encodeURIComponent(returnUrl)}`);
+        }, 2000);
+      } else {
+        setAddToCartError(
+          err.response?.data?.error?.message ||
+            err.message ||
+            'Failed to add item to cart'
+        );
+      }
     } finally {
       setIsAddingToCart(false);
     }
