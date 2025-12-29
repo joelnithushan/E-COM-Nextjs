@@ -43,26 +43,18 @@ class InventoryService {
 
       // Check stock for variants
       if (product.variants && product.variants.length > 0) {
-        // Product has variants - check if variants are selected
+        // Product has variants
         if (selectedVariants.length === 0) {
-          // Product has variants but none selected - check if any variant has stock
-          const hasAnyStock = product.variants.some((variant) =>
-            variant.options.some((opt) => (opt.stock || 0) > 0)
-          );
-          
-          if (!hasAnyStock && product.trackInventory) {
-            return {
-              available: false,
-              availableStock: 0,
-              reason: 'Product variants must be selected',
-            };
-          }
-          
-          // If not tracking inventory or has stock, allow it (will use base price)
+          // No variants selected - use base product stock
+          // This allows products with optional variants or when variants aren't required
+          const available = product.trackInventory
+            ? (product.stock || 0) >= quantity
+            : true;
+
           return {
-            available: true,
+            available,
             availableStock: product.stock || 0,
-            canBackorder: product.allowBackorder,
+            canBackorder: product.allowBackorder && (product.stock || 0) === 0,
             variantPath: null,
           };
         }
@@ -71,12 +63,12 @@ class InventoryService {
         // Find matching variant option
         for (const variant of product.variants) {
           const selectedOption = selectedVariants.find(
-            (sv) => sv.variantName === variant.name
+            (sv) => (sv.variantName || sv.name) === variant.name
           );
 
           if (selectedOption) {
             const option = variant.options.find(
-              (opt) => opt.value === selectedOption.optionValue
+              (opt) => opt.value === (selectedOption.optionValue || selectedOption.value)
             );
 
             if (!option) {
