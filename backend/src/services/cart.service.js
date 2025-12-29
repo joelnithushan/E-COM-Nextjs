@@ -237,12 +237,31 @@ class CartService {
     const price = this.calculateItemPrice(product, selectedVariants);
 
     // Check if item already exists with same variants
-    const existingItemIndex = cart.items.findIndex(
-      (item) =>
-        item.product.toString() === productId.toString() &&
-        JSON.stringify(item.selectedVariants.sort()) ===
-          JSON.stringify(selectedVariants.sort())
-    );
+    // Normalize selectedVariants for comparison (handle both formats)
+    const normalizeVariants = (variants) => {
+      if (!variants || variants.length === 0) return [];
+      return variants
+        .map((v) => ({
+          variantName: String(v.variantName || v.name || ''),
+          optionValue: String(v.optionValue || v.value || ''),
+        }))
+        .sort((a, b) => {
+          if (a.variantName !== b.variantName) {
+            return a.variantName.localeCompare(b.variantName);
+          }
+          return a.optionValue.localeCompare(b.optionValue);
+        });
+    };
+
+    const normalizedSelectedVariants = normalizeVariants(selectedVariants);
+    
+    const existingItemIndex = cart.items.findIndex((item) => {
+      if (item.product.toString() !== productId.toString()) {
+        return false;
+      }
+      const normalizedItemVariants = normalizeVariants(item.selectedVariants || []);
+      return JSON.stringify(normalizedItemVariants) === JSON.stringify(normalizedSelectedVariants);
+    });
 
     if (existingItemIndex > -1) {
       // Update quantity
@@ -278,8 +297,17 @@ class CartService {
 
     // Update expiration
     cart.expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-    await cart.save();
+    
+    // Save cart and ensure it's persisted
+    try {
+      await cart.save();
+      logger.debug(`Cart saved for user ${userId}, items count: ${cart.items.length}`);
+    } catch (saveError) {
+      logger.error('Error saving cart:', saveError);
+      throw new Error('Failed to save cart');
+    }
 
+    // Return updated cart with populated product data
     return await this.getOrCreateCart(userId);
   }
 

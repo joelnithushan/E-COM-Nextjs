@@ -43,14 +43,31 @@ class InventoryService {
 
       // Check stock for variants
       if (product.variants && product.variants.length > 0) {
+        // Product has variants - check if variants are selected
         if (selectedVariants.length === 0) {
+          // Product has variants but none selected - check if any variant has stock
+          const hasAnyStock = product.variants.some((variant) =>
+            variant.options.some((opt) => (opt.stock || 0) > 0)
+          );
+          
+          if (!hasAnyStock && product.trackInventory) {
+            return {
+              available: false,
+              availableStock: 0,
+              reason: 'Product variants must be selected',
+            };
+          }
+          
+          // If not tracking inventory or has stock, allow it (will use base price)
           return {
-            available: false,
-            availableStock: 0,
-            reason: 'Product variants must be selected',
+            available: true,
+            availableStock: product.stock || 0,
+            canBackorder: product.allowBackorder,
+            variantPath: null,
           };
         }
 
+        // Product has variants and user selected variants - check variant stock
         // Find matching variant option
         for (const variant of product.variants) {
           const selectedOption = selectedVariants.find(
@@ -71,16 +88,29 @@ class InventoryService {
             }
 
             const available = product.trackInventory
-              ? option.stock >= quantity
+              ? (option.stock || 0) >= quantity
               : true;
 
             return {
               available,
-              availableStock: option.stock,
-              canBackorder: product.allowBackorder && option.stock === 0,
+              availableStock: option.stock || 0,
+              canBackorder: product.allowBackorder && (option.stock || 0) === 0,
               variantPath: `variants.${product.variants.indexOf(variant)}.options.${variant.options.indexOf(option)}.stock`,
             };
           }
+        }
+
+        // If we have selected variants but didn't find a match, check if all required variants are selected
+        const requiredVariants = product.variants.map((v) => v.name);
+        const selectedVariantNames = selectedVariants.map((sv) => sv.variantName || sv.name);
+        const missingVariants = requiredVariants.filter((rv) => !selectedVariantNames.includes(rv));
+        
+        if (missingVariants.length > 0) {
+          return {
+            available: false,
+            availableStock: 0,
+            reason: `Required variants not selected: ${missingVariants.join(', ')}`,
+          };
         }
 
         return {

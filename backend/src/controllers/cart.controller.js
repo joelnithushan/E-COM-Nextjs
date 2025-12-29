@@ -30,7 +30,19 @@ export const addItem = async (req, res) => {
     const userId = req.user.id;
     const { productId, quantity, selectedVariants } = req.body;
 
-    const cart = await cartService.addItem(userId, productId, quantity, selectedVariants);
+    logger.debug('Adding item to cart:', {
+      userId,
+      productId,
+      quantity,
+      selectedVariants,
+    });
+
+    const cart = await cartService.addItem(userId, productId, quantity, selectedVariants || []);
+
+    logger.debug('Cart after adding item:', {
+      itemCount: cart.items?.length || 0,
+      total: cart.total || 0,
+    });
 
     sendSuccess(
       res,
@@ -39,7 +51,12 @@ export const addItem = async (req, res) => {
       HTTP_STATUS.CREATED
     );
   } catch (error) {
-    logger.error('Add item to cart error:', error);
+    logger.error('Add item to cart error:', {
+      message: error.message,
+      stack: error.stack,
+      userId: req.user?.id,
+      productId: req.body?.productId,
+    });
     
     // Include available stock in error response if applicable
     const errorResponse = {
