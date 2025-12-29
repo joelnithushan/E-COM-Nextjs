@@ -24,6 +24,16 @@ export interface Product {
     average: number;
     count: number;
   };
+  variants?: Array<{
+    name: string; // e.g., "Size", "Color"
+    options: Array<{
+      value: string; // e.g., "M", "Green"
+      price?: number; // Additional price for this variant
+      stock?: number; // Stock for this specific variant option
+      sku?: string;
+      image?: string;
+    }>;
+  }>;
   createdAt: string;
   updatedAt: string;
 }

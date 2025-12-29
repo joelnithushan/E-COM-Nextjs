@@ -1,11 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '@/lib/api/products.api';
 import { formatCurrency } from '@/lib/utils';
 import { cn } from '@/lib/utils';
+import QuickAddModal from './QuickAddModal';
 
 interface ProductCardProps {
   product: Product;
@@ -13,6 +14,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
+  const [isQuickAddOpen, setIsQuickAddOpen] = useState(false);
   const primaryImage = product.images.find((img) => img.isPrimary) || product.images[0];
   const hasDiscount = product.compareAtPrice && product.compareAtPrice > product.price;
   const discountPercentage = hasDiscount
@@ -21,8 +23,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
   const isOutOfStock = product.stock === 0;
 
   return (
-    <Link
-      href={`/products/${product._id}`}
+    <div
       className={cn(
         'group relative bg-white rounded-lg border border-gray-200 overflow-hidden',
         'hover:shadow-lg transition-all duration-300',
@@ -31,8 +32,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
         className
       )}
     >
-      {/* Image Container */}
-      <div className="relative w-full aspect-square bg-gray-100 overflow-hidden">
+      {/* Image Container - Clickable to product page */}
+      <Link href={`/products/${product._id}`} className="relative w-full aspect-square bg-gray-100 overflow-hidden block">
         {primaryImage?.url ? (
           <Image
             src={primaryImage.url}
@@ -88,13 +89,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
           </div>
         )}
 
-        {/* Quick View Overlay (on hover) */}
-        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-          <span className="bg-white text-gray-900 font-medium px-4 py-2 rounded shadow-lg">
+        {/* Quick Add & View Overlay (on hover) */}
+        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setIsQuickAddOpen(true);
+            }}
+            className="bg-white text-gray-900 font-medium px-4 py-2 rounded shadow-lg hover:bg-gray-100 transition-colors"
+          >
+            Quick Add
+          </button>
+          <Link
+            href={`/products/${product._id}`}
+            className="bg-white text-gray-900 font-medium px-4 py-2 rounded shadow-lg hover:bg-gray-100 transition-colors"
+          >
             View Details
-          </span>
+          </Link>
         </div>
-      </div>
+      </Link>
 
       {/* Content */}
       <div className="p-4 flex-1 flex flex-col">
@@ -103,10 +116,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
           <span className="text-xs text-gray-500 mb-1">{product.category.name}</span>
         )}
 
-        {/* Title */}
-        <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-black transition-colors">
-          {product.name}
-        </h3>
+        {/* Title - Clickable to product page */}
+        <Link href={`/products/${product._id}`}>
+          <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-black transition-colors cursor-pointer">
+            {product.name}
+          </h3>
+        </Link>
 
         {/* Rating */}
         {product.ratings.count > 0 && (
@@ -152,8 +167,28 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
             Only {product.stock} left in stock
           </p>
         )}
+
+        {/* Quick Add Button - Always Visible */}
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsQuickAddOpen(true);
+          }}
+          className="mt-3 w-full bg-black text-white py-2 px-4 rounded-lg font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={isOutOfStock}
+        >
+          Quick Add
+        </button>
       </div>
-    </Link>
+
+      {/* Quick Add Modal */}
+      <QuickAddModal
+        product={product}
+        isOpen={isQuickAddOpen}
+        onClose={() => setIsQuickAddOpen(false)}
+      />
+    </div>
   );
 };
 
