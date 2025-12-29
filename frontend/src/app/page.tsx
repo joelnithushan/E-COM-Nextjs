@@ -85,49 +85,98 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Categories Section */}
+      {/* Categories Section - Modern Design */}
       {categories.length > 0 && (
-        <Section padding="lg">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Shop by Category
-            </h2>
-            <p className="text-lg text-gray-600">
-              Browse our wide selection of products
-            </p>
-          </div>
+        <Section padding="lg" background="gray">
+          <Container>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Shop by Category
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Discover our curated collection of premium imported shoes, organized by style and purpose
+              </p>
+            </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {categories.slice(0, 8).map((category) => (
-              <Link
-                key={category._id}
-                href={`/products?category=${category._id}`}
-                className="group"
-              >
-                <div className="card card-hover p-6 text-center">
-                  {category.image?.url && (
-                    <div className="relative w-16 h-16 mx-auto mb-4 rounded-lg overflow-hidden">
-                      <Image
-                        src={category.image.url}
-                        alt={category.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform"
-                      />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+              {categories.slice(0, 8).map((category) => (
+                <Link
+                  key={category._id}
+                  href={`/products?category=${category._id}`}
+                  className="group relative"
+                >
+                  <div className="relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 h-full">
+                    {/* Category Image */}
+                    <div className="relative w-full h-48 bg-gray-200 overflow-hidden">
+                      {category.image?.url ? (
+                        <Image
+                          src={category.image.url}
+                          alt={category.image.alt || category.name}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                          <svg
+                            className="w-16 h-16 text-gray-400"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            />
+                          </svg>
+                        </div>
+                      )}
+                      {/* Overlay gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
-                  )}
-                  <h3 className="font-semibold text-gray-900 group-hover:text-black transition-colors">
-                    {category.name}
-                  </h3>
-                </div>
-              </Link>
-            ))}
-          </div>
+                    
+                    {/* Category Info */}
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-black transition-colors">
+                        {category.name}
+                      </h3>
+                      {category.description && (
+                        <p className="text-sm text-gray-600 line-clamp-2">
+                          {category.description}
+                        </p>
+                      )}
+                      <div className="mt-4 flex items-center text-black font-semibold text-sm group-hover:gap-2 transition-all">
+                        <span>Shop Now</span>
+                        <svg
+                          className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
 
-          <div className="text-center mt-8">
-            <Link href="/products">
-              <Button variant="outline">View All Categories</Button>
-            </Link>
-          </div>
+            <div className="text-center mt-12">
+              <Link href="/products">
+                <Button variant="primary" size="lg">
+                  View All Products
+                </Button>
+              </Link>
+            </div>
+          </Container>
         </Section>
       )}
 

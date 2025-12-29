@@ -75,26 +75,48 @@ export default function ProductDetailPage() {
     setAddToCartError(null);
 
     try {
-      await addToCart({
+      console.log('Adding to cart:', { productId: product._id, quantity });
+      const response = await addToCart({
         productId: product._id,
         quantity,
         selectedVariants: [],
       });
-      router.push('/cart');
+      
+      console.log('Add to cart response:', response);
+      
+      if (response && response.success) {
+        // Show success message briefly before redirecting
+        router.push('/cart');
+      } else {
+        const errorMsg = response?.error?.message || 'Failed to add item to cart';
+        console.error('Add to cart failed:', errorMsg);
+        setAddToCartError(errorMsg);
+      }
     } catch (err: any) {
+      console.error('Add to cart error:', err);
+      console.error('Error details:', {
+        message: err.message,
+        response: err.response?.data,
+        status: err.response?.status || err.status,
+      });
+      
       // Handle authentication errors
-      if (err.response?.status === 401) {
+      if (err.response?.status === 401 || err.status === 401) {
         setAddToCartError('Please login to add items to cart');
         const returnUrl = `/products/${productId}`;
         setTimeout(() => {
           router.push(`/login?returnUrl=${encodeURIComponent(returnUrl)}`);
         }, 2000);
+      } else if (err.response?.data?.error) {
+        // Backend error response format: { success: false, error: { message: "..." } }
+        const errorMessage = err.response.data.error.message || 
+                            err.response.data.error || 
+                            'Failed to add item to cart';
+        setAddToCartError(errorMessage);
+      } else if (err.message) {
+        setAddToCartError(err.message);
       } else {
-        setAddToCartError(
-          err.response?.data?.error?.message ||
-            err.message ||
-            'Failed to add item to cart'
-        );
+        setAddToCartError('Failed to add item to cart. Please try again.');
       }
     } finally {
       setIsAddingToCart(false);

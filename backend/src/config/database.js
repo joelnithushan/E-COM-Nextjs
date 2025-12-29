@@ -4,17 +4,31 @@ import logger from './logging.config.js';
 
 const connectDB = async () => {
   try {
+    // If already connected, return early
+    if (mongoose.connection.readyState === 1) {
+      logger.info(`MongoDB already connected`);
+      return;
+    }
+
+    logger.info(`Attempting to connect to MongoDB...`);
+    logger.debug(`Connection URI: ${config.database.uri.replace(/\/\/[^:]+:[^@]+@/, '//***:***@')}`);
+    
     const conn = await mongoose.connect(config.database.uri, {
       ...config.database.options,
       // Enable buffering in development to handle MongoDB not being immediately available
       // In production, disable buffering for immediate error feedback
       bufferCommands: config.isDevelopment,
-      // Set buffer timeout (default is 10000ms, but we'll keep it reasonable)
-      bufferMaxEntries: config.isDevelopment ? 100 : 0,
     });
 
-    logger.info(`MongoDB Connected: ${conn.connection.host}`);
-    logger.info(`Database: ${conn.connection.name}`);
+    // Wait for connection to be fully ready
+    if (mongoose.connection.readyState !== 1) {
+      await new Promise((resolve) => {
+        mongoose.connection.once('connected', resolve);
+      });
+    }
+
+    logger.info(`✅ MongoDB Connected: ${conn.connection.host}`);
+    logger.info(`✅ Database: ${conn.connection.name}`);
 
     // Set mongoose options for performance
     mongoose.set('strictQuery', true); // Deprecation warning fix
