@@ -286,12 +286,25 @@ class CartService {
       cart.items[existingItemIndex].quantity = newQuantity;
       cart.items[existingItemIndex].price = price; // Update price
     } else {
-      // Add new item
+      // Add new item - ensure selectedVariants is properly formatted
+      const formattedVariants = (selectedVariants || []).map((v) => ({
+        variantName: v.variantName || v.name || '',
+        optionValue: v.optionValue || v.value || '',
+      })).filter((v) => v.variantName && v.optionValue); // Only include valid variants
+
       cart.items.push({
         product: productId,
         quantity,
-        selectedVariants,
+        selectedVariants: formattedVariants,
         price,
+      });
+      
+      logger.debug(`Adding new item to cart:`, {
+        productId,
+        quantity,
+        selectedVariants: formattedVariants,
+        price,
+        cartItemsCount: cart.items.length,
       });
     }
 
@@ -300,15 +313,38 @@ class CartService {
     
     // Save cart and ensure it's persisted
     try {
-      await cart.save();
-      logger.debug(`Cart saved for user ${userId}, items count: ${cart.items.length}`);
+      const savedCart = await cart.save();
+      logger.info(`Cart saved successfully for user ${userId}`, {
+        cartId: savedCart._id,
+        itemsCount: savedCart.items.length,
+        total: savedCart.total,
+      });
     } catch (saveError) {
-      logger.error('Error saving cart:', saveError);
-      throw new Error('Failed to save cart');
+      logger.error('Error saving cart:', {
+        error: saveError.message,
+        stack: saveError.stack,
+        userId,
+        productId,
+        validationErrors: saveError.errors,
+      });
+      
+      // If it's a validation error, provide more details
+      if (saveError.name === 'ValidationError') {
+        const validationErrors = Object.values(saveError.errors || {}).map((e) => e.message);
+        throw new Error(`Cart validation failed: ${validationErrors.join(', ')}`);
+      }
+      
+      throw new Error(`Failed to save cart: ${saveError.message}`);
     }
 
     // Return updated cart with populated product data
-    return await this.getOrCreateCart(userId);
+    const updatedCart = await this.getOrCreateCart(userId);
+    logger.debug(`Cart retrieved after save:`, {
+      itemsCount: updatedCart.items?.length || 0,
+      total: updatedCart.total || 0,
+    });
+    
+    return updatedCart;
   }
 
   /**

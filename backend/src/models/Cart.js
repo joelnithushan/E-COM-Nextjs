@@ -18,11 +18,11 @@ const cartItemSchema = new mongoose.Schema(
       {
         variantName: {
           type: String,
-          required: true, // e.g., "Size"
+          required: false, // Optional - products may not have variants
         },
         optionValue: {
           type: String,
-          required: true, // e.g., "Large"
+          required: false, // Optional - products may not have variants
         },
       },
     ],
