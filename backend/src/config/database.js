@@ -6,8 +6,11 @@ const connectDB = async () => {
   try {
     const conn = await mongoose.connect(config.database.uri, {
       ...config.database.options,
-      // Performance optimizations
-      bufferCommands: false, // Disable mongoose buffering
+      // Enable buffering in development to handle MongoDB not being immediately available
+      // In production, disable buffering for immediate error feedback
+      bufferCommands: config.isDevelopment,
+      // Set buffer timeout (default is 10000ms, but we'll keep it reasonable)
+      bufferMaxEntries: config.isDevelopment ? 100 : 0,
     });
 
     logger.info(`MongoDB Connected: ${conn.connection.host}`);
@@ -34,7 +37,14 @@ const connectDB = async () => {
     }
   } catch (error) {
     logger.error(`MongoDB connection error: ${error.message}`);
-    process.exit(1);
+    if (config.isProduction) {
+      // Exit in production if DB connection fails
+      process.exit(1);
+    } else {
+      // In development, log error but allow server to continue
+      logger.warn('Server will continue without database connection (development mode)');
+      logger.warn('Some features requiring database will not work until MongoDB is connected');
+    }
   }
 };
 

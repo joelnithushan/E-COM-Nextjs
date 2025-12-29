@@ -1,9 +1,23 @@
+import mongoose from 'mongoose';
 import Product from '../models/Product.js';
 import Category from '../models/Category.js';
 import { uploadImage, deleteImage, deleteImages } from '../config/cloudinary.js';
 import { generateSlug, generateUniqueSlug } from '../utils/slug.util.js';
 import { HTTP_STATUS } from '../config/constants.js';
 import { logger } from '../utils/logger.util.js';
+
+/**
+ * Check if MongoDB is connected
+ */
+function checkDatabaseConnection() {
+  const isConnected = mongoose.connection.readyState === 1; // 1 = connected
+  if (!isConnected) {
+    const error = new Error('Database not connected. Please ensure MongoDB is running.');
+    error.statusCode = 503; // Service Unavailable
+    error.code = 'DATABASE_NOT_CONNECTED';
+    throw error;
+  }
+}
 
 /**
  * Product Service
@@ -14,6 +28,8 @@ class ProductService {
    * Get all products with pagination and filtering
    */
   async getProducts(query = {}) {
+    // Check database connection before querying
+    checkDatabaseConnection();
     const {
       page = 1,
       limit = 12,
@@ -112,6 +128,7 @@ class ProductService {
    * Get single product by ID
    */
   async getProductById(id) {
+    checkDatabaseConnection();
     const product = await Product.findById(id)
       .select('name slug description shortDescription price compareAtPrice images stock variants trackInventory allowBackorder sku weight dimensions status featured tags metaTitle metaDescription ratings salesCount category createdAt')
       .populate('category', 'name slug description')
@@ -130,6 +147,7 @@ class ProductService {
    * Get product by slug
    */
   async getProductBySlug(slug) {
+    checkDatabaseConnection();
     const product = await Product.findOne({ slug })
       .select('name slug description shortDescription price compareAtPrice images stock variants trackInventory allowBackorder sku weight dimensions status featured tags metaTitle metaDescription ratings salesCount category createdAt')
       .populate('category', 'name slug description')
