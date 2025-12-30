@@ -82,6 +82,20 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         if (cartData && (!cartData.items || !Array.isArray(cartData.items))) {
           cartData.items = [];
         }
+        
+        // Debug: Log cart data structure
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Cart data received:', {
+            itemCount: cartData?.items?.length || 0,
+            items: cartData?.items?.map((item: any) => ({
+              id: item._id,
+              hasProduct: !!item.product,
+              productName: item.product?.name,
+              productId: item.product?._id,
+            })),
+          });
+        }
+        
         setCart(cartData);
         // Cache cart
         if (typeof window !== 'undefined') {
