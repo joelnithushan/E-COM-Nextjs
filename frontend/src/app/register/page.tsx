@@ -117,7 +117,7 @@ export default function RegisterPage() {
             <Link href="/" className="inline-flex items-center space-x-2 mb-4">
               <div className="w-12 h-12 flex items-center justify-center">
                 <Image
-                  src="/logo.svg"
+                  src="/logo.png"
                   alt="Zyra Logo"
                   width={48}
                   height={48}

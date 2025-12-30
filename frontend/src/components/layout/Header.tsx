@@ -25,11 +25,11 @@ const Header: React.FC = () => {
           >
             <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center">
               <Image
-                src="/logo.svg"
+                src="/logo.png"
                 alt="Zyra Logo"
                 width={40}
                 height={40}
-                className="w-full h-full"
+                className="w-full h-full object-contain"
                 priority
               />
             </div>
