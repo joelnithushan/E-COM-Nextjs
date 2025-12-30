@@ -4,8 +4,10 @@ import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { CartProvider } from '@/contexts/CartContext';
 import { InstallPrompt } from '@/components/pwa/InstallPrompt';
 import { generateOrganizationStructuredData } from '@/lib/seo';
+import { ToastProvider } from '@/components/ui/ToastProvider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -142,10 +144,14 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col antialiased">
         <AuthProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <InstallPrompt />
+          <CartProvider>
+            <ToastProvider>
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <InstallPrompt />
+            </ToastProvider>
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>

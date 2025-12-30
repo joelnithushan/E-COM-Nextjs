@@ -6,10 +6,11 @@ export interface CartItem {
     _id: string;
     name: string;
     slug: string;
-    image?: {
+    images?: Array<{
       url: string;
       alt?: string;
-    };
+      isPrimary?: boolean;
+    }>;
   };
   quantity: number;
   selectedVariants: Array<{

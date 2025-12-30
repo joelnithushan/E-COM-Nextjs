@@ -3,9 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Product } from '@/lib/api/products.api';
-import { addToCart } from '@/lib/api/cart.api';
 import { formatCurrency } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
+import { useToast } from '@/components/ui/ToastProvider';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/Button';
 import Alert from '@/components/ui/Alert';
@@ -24,11 +25,11 @@ interface SelectedVariants {
 const QuickAddModal: React.FC<QuickAddModalProps> = ({ product, isOpen, onClose }) => {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
+  const { addToCart, isUpdating } = useCart();
+  const { success: showSuccess, error: showError } = useToast();
   const [selectedVariants, setSelectedVariants] = useState<SelectedVariants>({});
   const [quantity, setQuantity] = useState(1);
-  const [isAdding, setIsAdding] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
 
   const primaryImage = product.images.find((img) => img.isPrimary) || product.images[0];
 
@@ -51,9 +52,19 @@ const QuickAddModal: React.FC<QuickAddModalProps> = ({ product, isOpen, onClose 
     if (!isOpen) {
       setQuantity(1);
       setError(null);
-      setSuccess(false);
+      // Reset selected variants to first available
+      if (product.variants && product.variants.length > 0) {
+        const initial: SelectedVariants = {};
+        product.variants.forEach((variant) => {
+          const firstAvailable = variant.options.find((opt) => (opt.stock || 0) > 0);
+          if (firstAvailable) {
+            initial[variant.name] = firstAvailable.value;
+          }
+        });
+        setSelectedVariants(initial);
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, product]);
 
   // Get available stock for selected variant combination
   const getAvailableStock = (): number => {
@@ -104,53 +115,38 @@ const QuickAddModal: React.FC<QuickAddModalProps> = ({ product, isOpen, onClose 
         (variant) => !selectedVariants[variant.name]
       );
       if (missingVariants.length > 0) {
-        setError(`Please select ${missingVariants.map((v) => v.name).join(' and ')}`);
+        const errorMsg = `Please select ${missingVariants.map((v) => v.name).join(' and ')}`;
+        setError(errorMsg);
+        showError(errorMsg);
         return;
       }
     }
 
     if (quantity > availableStock) {
-      setError(`Only ${availableStock} available in stock`);
+      const errorMsg = `Only ${availableStock} available in stock`;
+      setError(errorMsg);
+      showError(errorMsg);
       return;
     }
 
-    setIsAdding(true);
     setError(null);
 
-    try {
-      const selectedVariantsArray = Object.entries(selectedVariants).map(([name, value]) => ({
-        variantName: name,
-        optionValue: value,
-      }));
+    const selectedVariantsArray = Object.entries(selectedVariants).map(([name, value]) => ({
+      variantName: name,
+      optionValue: value,
+    }));
 
-      const response = await addToCart({
-        productId: product._id,
-        quantity,
-        selectedVariants: selectedVariantsArray,
-      });
+    const success = await addToCart(product._id, quantity, selectedVariantsArray);
 
-      if (response && response.success) {
-        setSuccess(true);
-        setTimeout(() => {
-          onClose();
-          router.push('/cart');
-        }, 1000);
-      } else {
-        setError(response?.error?.message || 'Failed to add item to cart');
-      }
-    } catch (err: any) {
-      console.error('Add to cart error:', err);
-      if (err.response?.status === 401) {
-        router.push(`/login?returnUrl=${encodeURIComponent(window.location.pathname)}`);
-      } else {
-        setError(
-          err.response?.data?.error?.message ||
-            err.message ||
-            'Failed to add item to cart'
-        );
-      }
-    } finally {
-      setIsAdding(false);
+    if (success) {
+      showSuccess(`${product.name} added to cart!`, 2000);
+      setTimeout(() => {
+        onClose();
+      }, 500);
+    } else {
+      const errorMsg = 'Failed to add item to cart. Please try again.';
+      setError(errorMsg);
+      showError(errorMsg);
     }
   };
 
@@ -293,15 +289,10 @@ const QuickAddModal: React.FC<QuickAddModalProps> = ({ product, isOpen, onClose 
                 )}
               </div>
 
-              {/* Error/Success Messages */}
+              {/* Error Messages */}
               {error && (
                 <Alert variant="error" className="mb-4">
                   {error}
-                </Alert>
-              )}
-              {success && (
-                <Alert variant="success" className="mb-4">
-                  Item added to cart successfully!
                 </Alert>
               )}
 
@@ -310,11 +301,11 @@ const QuickAddModal: React.FC<QuickAddModalProps> = ({ product, isOpen, onClose 
                 variant="primary"
                 size="lg"
                 className="w-full"
-                disabled={isOutOfStock || isAdding || success}
-                isLoading={isAdding}
+                disabled={isOutOfStock || isUpdating}
+                isLoading={isUpdating}
                 onClick={handleAddToCart}
               >
-                {isOutOfStock ? 'Out of Stock' : success ? 'Added!' : 'Add to Cart'}
+                {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
               </Button>
             </div>
           </div>
