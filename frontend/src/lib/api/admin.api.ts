@@ -71,7 +71,7 @@ export const createProduct = async (data: any): Promise<{
   success: boolean;
   data: { product: Product };
 }> => {
-  return apiClient.post('/products', data);
+  return apiClient.post('/admin/products', data);
 };
 
 /**
@@ -85,7 +85,7 @@ export const updateProduct = async (
   success: boolean;
   data: { product: Product };
 }> => {
-  return apiClient.put(`/products/${id}`, data);
+  return apiClient.put(`/admin/products/${id}`, data);
 };
 
 /**
