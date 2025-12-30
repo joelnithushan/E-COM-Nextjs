@@ -148,9 +148,11 @@ export default function CartPage() {
               {/* Cart Items */}
               <div className="lg:col-span-2 space-y-4">
                 {cart?.items && cart.items.length > 0 ? (
-                  cart.items.map((item) => {
-                    const isUpdating = updatingItems.has(item._id);
-                    const productImage = item.product?.images?.find((img) => img.isPrimary) || item.product?.images?.[0];
+                  cart.items
+                    .filter((item) => item && item.product) // Filter out invalid items
+                    .map((item) => {
+                      const isUpdating = updatingItems.has(item._id);
+                      const productImage = item.product?.images?.find((img) => img.isPrimary) || item.product?.images?.[0];
 
                   return (
                     <div
@@ -290,7 +292,12 @@ export default function CartPage() {
                       </div>
                     </div>
                   );
-                })}
+                    })
+                ) : (
+                  <div className="text-center py-12 bg-white border border-gray-200 rounded-lg">
+                    <p className="text-gray-600">No items in cart</p>
+                  </div>
+                )}
 
                 {/* Clear Cart Button */}
                 {cart && cart.items.length > 0 && (

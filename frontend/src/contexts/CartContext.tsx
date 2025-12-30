@@ -77,10 +77,15 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       const response = await getCart();
 
       if (response.success) {
-        setCart(response.data.cart);
+        const cartData = response.data.cart;
+        // Ensure items array exists and has valid structure
+        if (cartData && (!cartData.items || !Array.isArray(cartData.items))) {
+          cartData.items = [];
+        }
+        setCart(cartData);
         // Cache cart
         if (typeof window !== 'undefined') {
-          localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(response.data.cart));
+          localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartData));
         }
       } else {
         setError('Failed to load cart');
