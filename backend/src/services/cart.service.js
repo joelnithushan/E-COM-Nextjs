@@ -344,14 +344,33 @@ class CartService {
     // Update expiration
     cart.expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
     
+    // Mark cart as modified to ensure Mongoose saves the changes
+    cart.markModified('items');
+    
     // Save cart and ensure it's persisted
     try {
       const savedCart = await cart.save();
       logger.info(`Cart saved successfully for user ${userId}`, {
-        cartId: savedCart._id,
+        cartId: savedCart._id.toString(),
         itemsCount: savedCart.items.length,
-        total: savedCart.total,
+        total: savedCart.total || 0,
+        items: savedCart.items.map((item) => ({
+          productId: item.product.toString(),
+          quantity: item.quantity,
+          price: item.price,
+          selectedVariants: item.selectedVariants,
+        })),
       });
+      
+      // Verify the cart was actually saved by fetching it again
+      const verifyCart = await Cart.findById(savedCart._id);
+      if (!verifyCart || verifyCart.items.length !== savedCart.items.length) {
+        logger.error(`Cart save verification failed!`, {
+          savedItemsCount: savedCart.items.length,
+          verifiedItemsCount: verifyCart?.items.length || 0,
+        });
+        throw new Error('Cart was not saved correctly');
+      }
     } catch (saveError) {
       logger.error('Error saving cart:', {
         error: saveError.message,
@@ -359,6 +378,7 @@ class CartService {
         userId,
         productId,
         validationErrors: saveError.errors,
+        cartItemsBeforeSave: cart.items.length,
       });
       
       // If it's a validation error, provide more details
@@ -372,9 +392,10 @@ class CartService {
 
     // Return updated cart with populated product data
     const updatedCart = await this.getOrCreateCart(userId);
-    logger.debug(`Cart retrieved after save:`, {
+    logger.info(`Cart retrieved after save:`, {
       itemsCount: updatedCart.items?.length || 0,
       total: updatedCart.total || 0,
+      cartId: updatedCart._id?.toString() || 'N/A',
     });
     
     return updatedCart;
