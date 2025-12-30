@@ -20,11 +20,32 @@ class CartService {
 
     if (!cart) {
       cart = await Cart.create({ user: userId });
+      // Return empty cart as plain object
+      return cart.toObject ? cart.toObject() : cart;
     }
 
     // Validate and clean cart items
     const validatedCart = await this.validateCartItems(cart);
-    return validatedCart;
+    
+    // Ensure cart is a plain object with populated products
+    const cartObj = validatedCart.toObject ? validatedCart.toObject() : validatedCart;
+    
+    // Re-populate if needed to ensure products are populated
+    if (cartObj.items && cartObj.items.length > 0) {
+      const needsRepopulation = cartObj.items.some(
+        (item) => !item.product || typeof item.product === 'string' || (item.product._id === undefined && !item.product.name)
+      );
+      
+      if (needsRepopulation) {
+        await cart.populate({
+          path: 'items.product',
+          select: 'name slug price images status stock variants',
+        });
+        return cart.toObject();
+      }
+    }
+    
+    return cartObj;
   }
 
   /**
@@ -110,20 +131,65 @@ class CartService {
       // Update price snapshot (in case price changed)
       const currentPrice = this.calculateItemPrice(product, item.selectedVariants);
       item.price = currentPrice;
-      validItems.push(item);
+      
+      // Attach product data to item
+      const itemObj = item.toObject ? item.toObject() : item;
+      itemObj.product = product;
+      validItems.push(itemObj);
     }
 
-    // Update cart with valid items
+    // Update cart with valid items if any were removed
     if (removedItems.length > 0) {
-      cart.items = validItems;
+      cart.items = validItems.map((item) => ({
+        product: item.product._id || item.product,
+        quantity: item.quantity,
+        selectedVariants: item.selectedVariants || [],
+        price: item.price,
+        addedAt: item.addedAt,
+      }));
       await cart.save();
+      
+      // Re-populate products after save
+      await cart.populate({
+        path: 'items.product',
+        select: 'name slug price images status stock variants',
+      });
     }
 
     // Return cart with validation info
-    const cartObj = cart.toObject();
+    const cartObj = cart.toObject ? cart.toObject() : cart;
+    
+    // Ensure all items have populated product data
+    if (cartObj.items && cartObj.items.length > 0) {
+      cartObj.items = cartObj.items.map((item) => {
+        // If product is already populated (has name), return as is
+        if (item.product && item.product.name) {
+          return item;
+        }
+        
+        // Otherwise, get product from map
+        const productId = item.product?._id?.toString() || item.product?.toString() || item.product;
+        const product = productMap.get(productId);
+        
+        if (product) {
+          return {
+            ...item,
+            product: {
+              _id: product._id,
+              name: product.name,
+              slug: product.slug,
+              images: product.images || [],
+              price: product.price,
+            },
+          };
+        }
+        return item;
+      });
+    }
+    
     if (removedItems.length > 0) {
       cartObj.validationWarnings = removedItems.map(({ item, reason }) => ({
-        productId: item.product,
+        productId: item.product?._id?.toString() || item.product?.toString() || item.product,
         reason,
       }));
     }

@@ -147,9 +147,10 @@ export default function CartPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Cart Items */}
               <div className="lg:col-span-2 space-y-4">
-                {cart?.items.map((item) => {
-                  const isUpdating = updatingItems.has(item._id);
-                  const productImage = item.product.images?.find((img) => img.isPrimary) || item.product.images?.[0];
+                {cart?.items && cart.items.length > 0 ? (
+                  cart.items.map((item) => {
+                    const isUpdating = updatingItems.has(item._id);
+                    const productImage = item.product?.images?.find((img) => img.isPrimary) || item.product?.images?.[0];
 
                   return (
                     <div
