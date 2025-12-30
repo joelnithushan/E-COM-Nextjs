@@ -206,7 +206,7 @@ export default function ProfilePage() {
                     <div className="flex justify-between">
                       <span className="text-gray-600">Account Role:</span>
                       <span className="font-medium text-gray-900">
-                        {authUser?.role === 'ADMIN' ? 'Administrator' : 'Customer'}
+                        {authUser?.role === 'ADMIN' || authUser?.role === 'admin' ? 'Administrator' : 'Customer'}
                       </span>
                     </div>
                     <div className="flex justify-between">

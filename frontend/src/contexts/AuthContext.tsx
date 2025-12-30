@@ -97,8 +97,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         
         setUser(user);
         
-        // Redirect based on role
-        if (user.role === 'ADMIN') {
+        // Redirect based on role (backend uses lowercase 'admin', frontend may expect uppercase)
+        if (user.role === 'ADMIN' || user.role === 'admin') {
           router.push('/admin');
         } else {
           router.push('/');
@@ -122,8 +122,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         
         setUser(user);
         
-        // Redirect based on role
-        if (user.role === 'ADMIN') {
+        // Redirect based on role (backend uses lowercase 'admin', frontend may expect uppercase)
+        if (user.role === 'ADMIN' || user.role === 'admin') {
           router.push('/admin');
         } else {
           router.push('/');
@@ -155,8 +155,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     user,
     isLoading,
     isAuthenticated: !!user,
-    isAdmin: user?.role === 'ADMIN',
-    isCustomer: user?.role === 'CUSTOMER',
+    isAdmin: user?.role === 'ADMIN' || user?.role === 'admin',
+    isCustomer: user?.role === 'CUSTOMER' || user?.role === 'customer',
     login,
     register,
     logout,
