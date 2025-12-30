@@ -59,21 +59,50 @@ class CartService {
         continue;
       }
 
-      // Check stock availability using inventory service
-      // Note: Using synchronous check for batch validation (read-only, safe)
-      const stockCheck = this.checkStockAvailabilitySync(
-        product,
-        item.quantity,
-        item.selectedVariants
-      );
+      // Check stock availability - for validation, we'll be lenient
+      // Only remove items if product is truly unavailable
+      // Stock checks happen during add/update operations
+      let stockAvailable = true;
+      let availableStock = product.stock || 0;
+      
+      // If product has variants, check variant stock
+      if (product.variants && product.variants.length > 0 && item.selectedVariants && item.selectedVariants.length > 0) {
+        // Find matching variant option
+        for (const variant of product.variants) {
+          const selectedOption = item.selectedVariants.find(
+            (sv) => (sv.variantName || sv.name) === variant.name
+          );
+          if (selectedOption) {
+            const option = variant.options.find(
+              (opt) => opt.value === (selectedOption.optionValue || selectedOption.value)
+            );
+            if (option) {
+              availableStock = option.stock || 0;
+              stockAvailable = !product.trackInventory || availableStock >= item.quantity;
+              break;
+            }
+          }
+        }
+      } else {
+        // Product without variants or no variants selected
+        stockAvailable = !product.trackInventory || availableStock >= item.quantity;
+      }
 
-      if (!stockCheck.available) {
+      if (!stockAvailable && product.trackInventory) {
         // Adjust quantity to available stock or remove if out of stock
-        if (stockCheck.availableStock > 0) {
-          item.quantity = stockCheck.availableStock;
+        if (availableStock > 0) {
+          item.quantity = availableStock;
           validItems.push(item);
+          logger.debug(`Adjusted cart item quantity due to stock:`, {
+            productId: product._id,
+            originalQuantity: item.quantity,
+            newQuantity: availableStock,
+          });
         } else {
           removedItems.push({ item, reason: 'Out of stock' });
+          logger.debug(`Removed cart item - out of stock:`, {
+            productId: product._id,
+          });
         }
         continue;
       }
@@ -108,11 +137,15 @@ class CartService {
   checkStockAvailabilitySync(product, quantity, selectedVariants = []) {
     // If product has variants
     if (product.variants && product.variants.length > 0) {
+      // If no variants selected, use base product stock (for products without required variants)
       if (selectedVariants.length === 0) {
+        const available = product.trackInventory
+          ? (product.stock || 0) >= quantity
+          : true;
         return {
-          available: false,
-          availableStock: 0,
-          reason: 'Product variants must be selected',
+          available,
+          availableStock: product.stock || 0,
+          canBackorder: product.allowBackorder && (product.stock || 0) === 0,
         };
       }
 

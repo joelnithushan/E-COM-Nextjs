@@ -36,7 +36,7 @@ const cartItemSchema = new mongoose.Schema(
       default: Date.now,
     },
   },
-  { _id: false }
+  { _id: true } // Enable _id for cart items so we can reference them
 );
 
 const cartSchema = new mongoose.Schema(
