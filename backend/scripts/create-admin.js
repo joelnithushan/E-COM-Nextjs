@@ -4,7 +4,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import connectDB from '../src/config/database.js';
 import User from '../src/models/User.js';
-import { hashPassword } from '../src/utils/password.util.js';
 import { USER_ROLES } from '../src/config/constants.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -36,7 +35,8 @@ async function createAdmin() {
       } else {
         // Update existing user to admin
         existingAdmin.role = USER_ROLES.ADMIN;
-        existingAdmin.password = await hashPassword(password);
+        existingAdmin.password = password; // Will be hashed by pre-save hook
+        existingAdmin.markModified('password'); // Ensure password is saved
         await existingAdmin.save();
         console.log(`✅ Updated user to admin: ${email}`);
         await mongoose.disconnect();
@@ -45,11 +45,11 @@ async function createAdmin() {
     }
 
     // Create admin user
-    const hashedPassword = await hashPassword(password);
+    // Note: Don't hash password here - User model's pre-save hook will hash it
     const admin = await User.create({
       name,
       email: email.toLowerCase(),
-      password: hashedPassword,
+      password: password, // Will be hashed by User model's pre-save hook
       role: USER_ROLES.ADMIN,
       isEmailVerified: true,
       isActive: true,
