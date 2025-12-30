@@ -25,6 +25,22 @@ export default function CartPage() {
     refreshCart();
   }, [refreshCart]);
 
+  // Debug: Log cart state
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development' && cart) {
+      console.log('Cart page - Cart state:', {
+        itemCount: cart.items?.length || 0,
+        total: cart.total,
+        items: cart.items?.map((item) => ({
+          id: item._id,
+          productName: item.product?.name,
+          quantity: item.quantity,
+          hasProduct: !!item.product,
+        })),
+      });
+    }
+  }, [cart]);
+
   const handleUpdateQuantity = async (itemId: string, newQuantity: number) => {
     if (newQuantity < 1) {
       handleRemoveItem(itemId);
