@@ -78,5 +78,9 @@ router.use(`/coupons`, couponRoutes);
 import analyticsRoutes from './analytics.routes.js';
 router.use(`/analytics`, analyticsRoutes);
 
+// Admin routes
+import adminRoutes from './admin.routes.js';
+router.use(`/admin`, adminRoutes);
+
 export default router;
 
